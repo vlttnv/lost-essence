@@ -4,6 +4,7 @@ int videoScale = 32;
 int rows, cols;
 
 Map terrainMap;
+Map dynamicsMap;
 Player p;
 
 
@@ -17,33 +18,36 @@ void setup() {
 
   Tiles loadedTiles = new Tiles();
   terrainMap = new Map(loadedTiles, "simple.map");
-  p = new Player(loadedTiles);
+  dynamicsMap = new Map(loadedTiles, "dynamics.map");
+  p = new Player(loadedTiles, dynamicsMap);
 }
 
 // Draw loop
 void draw() {
-  println(frameRate);
+  //println(frameRate);
   background(30, 140, 30);
   terrainMap.drawMap();
-  p.drawPlayer();
+  dynamicsMap.drawMap();
+  //p.drawPlayer();
 }
 
 void keyPressed() {
   if (key == 'a') {
-    p.movePlayer(0);
+    p.movePlayer(0, terrainMap);
   }
   if (key == 'w') {
-    p.movePlayer(1);
+    p.movePlayer(1, terrainMap);
   } 
   if (key == 'd') {
-    p.movePlayer(2);
+    p.movePlayer(2, terrainMap);
   } 
   if (key == 's') {
-    p.movePlayer(3);
+    p.movePlayer(3, terrainMap);
   }
 }
 
 void mouseClicked() {
-  p.teleportPlayer(mouseX, mouseY);
+  //p.teleportPlayer(mouseX, mouseY);
+  p.shoot(mouseX, mouseY);
 }
 

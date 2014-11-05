@@ -47,11 +47,37 @@ class Map {
         // Scaling up to draw a rectangle at (x,y)
         int x = i*videoScale;
         int y = j*videoScale;
-       
+
         // For every column and row, a rectangle is drawn at an (x,y) location scaled and sized by videoScale.
-        image(tiles.get(map[j][i]), x, y);
+        if (map[j][i] != -1) {
+          image(tiles.get(map[j][i]), x, y);
+        }
       }
     }
+  }
+
+  public boolean isStepable(int x, int y) {
+    if (y>rows-1 || x>cols-1) return false;
+    if (y<0 || x<0) return false;
+    if (map[y][x] < 2) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public void update(int prevX, int prevY, int x, int y, int value) {
+    if (value != -1) {
+      map[y][x] = value;
+      map[prevY][prevX] = -1;
+    } else {
+      map[y][x] = map[prevY][prevX];
+      map[prevY][prevX] = -1;
+    }
+  }
+
+  public void set(int x, int y, int value) {
+    map[y][x] = value;
   }
 }
 

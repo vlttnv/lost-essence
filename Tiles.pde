@@ -41,7 +41,10 @@ class Tiles {
     water_c_t_l = loadImage("water_c_t_l.png");
     water_c_t_r = loadImage("water_c_t_r.png");
 
-    tiles = new PImage[20];
+    // x<100 are static map tiles
+    // 100<x<200 player, NPCs and dynamic items
+    // x>200 other
+    tiles = new PImage[300];
 
     tiles[1] = stone;
     tiles[0] = grass;
@@ -58,6 +61,9 @@ class Tiles {
     tiles[12] = water_c_b_r;
     tiles[13] = water_c_t_l;
     tiles[14] = water_c_t_r;
+    
+    tiles[100] = warrior_l;
+    tiles[101] = warrior_r;
   }
 
   public PImage get(int i) {
