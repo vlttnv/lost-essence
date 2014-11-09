@@ -59,25 +59,12 @@ class Map {
   public boolean isStepable(int x, int y) {
     if (y>rows-1 || x>cols-1) return false;
     if (y<0 || x<0) return false;
+    if (dynamicsPositionMap.get(x, y) != null) return false;
     if (map[y][x] < 2) {
       return true;
     } else {
       return false;
     }
-  }
-
-  public void update(int prevX, int prevY, int x, int y, int value) {
-    if (value != -1) {
-      map[y][x] = value;
-      map[prevY][prevX] = -1;
-    } else {
-      map[y][x] = map[prevY][prevX];
-      map[prevY][prevX] = -1;
-    }
-  }
-
-  public void set(int x, int y, int value) {
-    map[y][x] = value;
   }
 }
 
