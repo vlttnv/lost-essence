@@ -15,6 +15,7 @@ class Tiles {
   PImage water_c_t_r;
   PImage grass;
   PImage sword;
+  PImage fireball;
   public PImage warrior_l;
   public PImage warrior_r;
 
@@ -26,6 +27,7 @@ class Tiles {
     sword = loadImage("sword.png");
     warrior_l = loadImage("warrior_l.png");
     warrior_r = loadImage("warrior_r.png");
+    fireball = loadImage("fireball.png");
 
     water = loadImage("water.png");
     water_t_l = loadImage("sand_water_top_left.png");
@@ -61,7 +63,7 @@ class Tiles {
     tiles[12] = water_c_b_r;
     tiles[13] = water_c_t_l;
     tiles[14] = water_c_t_r;
-    
+
     tiles[100] = warrior_l;
     tiles[101] = warrior_r;
   }
