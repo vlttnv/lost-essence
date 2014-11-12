@@ -4,6 +4,8 @@ class PositionMap {
 
   public PositionMap() {
     map = new Dynamic[rows][cols];
+    println("ROWS " + rows);
+    println("COLS " + cols);
   }
 
   public void register(Dynamic d, int x, int y) {
@@ -30,13 +32,20 @@ class PositionMap {
 
         // For every column and row, a rectangle is drawn at an (x,y) location scaled and sized by videoScale.
         if (map[j][i] != null) {
-          image(loadedTiles.get(map[j][i].getTileNumber()), x, y);
+          Dynamic d = map[j][i];
+          
+          image(loadedTiles.get(d.getTileNumber()), x, y);
+          textSize(12);
+          textAlign(CENTER);
+          text(d.getName(), d.getX()*videoScale + 16, d.getY()*videoScale);
         }
       }
     }
   }
 
   public Dynamic get(int x, int y) {
+    println("X " + x);
+    println("Y " + y);
     return map[y][x];
   }
 }

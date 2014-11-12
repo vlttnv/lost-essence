@@ -4,6 +4,14 @@ abstract class Dynamic {
   int tileLeft;
   int tileRight;
   int direction_image;
+  
+  public Dynamic(String name, int x, int y, int tileLeft, int tileRight) {
+    this.name = name;
+    posX = x;
+    posY = y;
+    this.tileLeft = tileLeft;
+    this.tileRight = tileRight;
+  }
 
   abstract void click();
   abstract void attack(int dmg);
@@ -18,6 +26,16 @@ abstract class Dynamic {
     } else {
       return tileRight;
     }
+  }
+  
+  public String getnName() { 
+    return name;
+  }
+  public int getX() {
+    return posX;
+  }
+  public int getY() {
+   return posY; 
   }
 }
 

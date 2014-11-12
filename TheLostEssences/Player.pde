@@ -4,8 +4,6 @@ class Player extends Dynamic {
   final int D_RIGHT = 2;
   final int D_DOWN = 3;
   //public int posX, posY;
-
-  String name;
   int level;
   int charClass;
   int race;
@@ -13,15 +11,18 @@ class Player extends Dynamic {
   int hp;
   int dmg;
 
+  Skill[] skills;
 
 
 
-  public Player(String name, int posX, int posY, int tileLeft, int tileRight) {
-    this.name = name;
-    this.posX = posX;
-    this.posY = posY;
-    this.tileLeft = tileLeft;
-    this.tileRight = tileRight;
+
+  public Player(String name, int posX, int posY, int tileLeft, int tileRight, int charClass) {
+    super(name, posX, posY, tileLeft, tileRight);
+    skills = new Skill[4];
+    if (charClass == 0) {
+      skills[0] = new WeaponSwing();
+      skills[1] = new Charge();
+    }
     dynamicsPositionMap.register(this, posX, posY);
     //dynamicsRenderMap.set(posX, posY, 100);
     direction_image = 0;
@@ -67,8 +68,11 @@ class Player extends Dynamic {
   }
 
   public void teleportPlayer(int x, int y) {
-    posX = x / 32;
-    posY = y / 32;
+    if (x != posX || y != posY) {
+      dynamicsPositionMap.update(posX, posY, x, y);
+      posX = x;
+      posY = y;
+    }
   }
 
   public void shoot(int x, int y) {
@@ -77,9 +81,8 @@ class Player extends Dynamic {
 
   public void click() {
   }
-  
+
   public void attack(int dmg) {
-    
   }
 }
 
