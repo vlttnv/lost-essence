@@ -60,7 +60,7 @@ class Map {
     if (y>rows-1 || x>cols-1) return false;
     if (y<0 || x<0) return false;
     if (dynamicsPositionMap.get(x, y) != null) return false;
-    if (map[y][x] < 2) {
+    if (map[y][x] < 100) {
       return true;
     } else {
       return false;

@@ -12,6 +12,7 @@ PositionMap dynamicsPositionMap;
 Player p;
 Hostile h;
 Friendly f;
+Entrance entr;
 
 Tiles loadedTiles;
 
@@ -51,8 +52,9 @@ void setup() {
   //println(test.getName());
   //println(test2.getName());
 
-  p = new Player("Bob", 5, 5, 100, 101, 0);
-  h = new Hostile("Zombie", 10, 10, 100, 5, 10, 1, 1, 100, 100);
+  p = new Player("Bob", 5, 5, 100, 0);
+  h = new Hostile("Zombie", 10, 10, 100, 5, 10, 1, 1, 100);
+  entr = new Entrance("Portal", 27,9, 150, 11, 12, "dungeon.map");
   //f = new Friendly("mob2", 20, 20, 100, 100);
 }
 

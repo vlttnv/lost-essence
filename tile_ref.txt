@@ -1,0 +1,10 @@
+1	- grass
+10	- dirt
+20	- sand
+30	- cobble
+40	- brick
+41	- dungeon floor
+100	- base human
+101 - base orc
+102 - base elf
+150 - portal

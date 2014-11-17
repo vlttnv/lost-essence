@@ -1,6 +1,6 @@
 abstract class NPC extends Dynamic {
-  public NPC(String name, int x, int y, int tileLeft, int tileRight) {
-        super(name, x, y, tileLeft, tileRight);
+  public NPC(String name, int x, int y, int tile) {
+        super(name, x, y, tile);
   }
 
   void click() {

@@ -9,10 +9,9 @@ class Hostile extends NPC {
   int armor, 
   int lvl, 
   int type,
-  int tileLeft,
-  int tileRight
+  int tile
     ) {
-    super(name, x, y, tileLeft, tileRight);
+    super(name, x, y, tile);
     this.hp = hp;
     this.armor = armor;
     this.dmg = dmg;

@@ -3,10 +3,9 @@ class Friendly extends NPC {
   public Friendly(String name, 
   int x, 
   int y, 
-  int tileLeft,
-  int tileRigjt
+  int tile
     ) {
-    super(name, x, y, tileLeft, tileRigjt);
+    super(name, x, y, tile);
   }
 
   void click() {

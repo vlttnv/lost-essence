@@ -1,16 +1,14 @@
 abstract class Dynamic {
   String name;
   int posX, posY;  
-  int tileLeft;
-  int tileRight;
+  int tile;
   int direction_image;
   
-  public Dynamic(String name, int x, int y, int tileLeft, int tileRight) {
+  public Dynamic(String name, int x, int y, int tile) {
     this.name = name;
     posX = x;
     posY = y;
-    this.tileLeft = tileLeft;
-    this.tileRight = tileRight;
+    this.tile = tile;
   }
 
   abstract void click();
@@ -21,11 +19,8 @@ abstract class Dynamic {
   }
 
   int getTileNumber() {
-    if (direction_image == 0) {
-      return  tileLeft;
-    } else {
-      return tileRight;
-    }
+      return tile;
+
   }
   
   public String getnName() { 

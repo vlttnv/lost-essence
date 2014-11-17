@@ -16,8 +16,8 @@ class Player extends Dynamic {
 
 
 
-  public Player(String name, int posX, int posY, int tileLeft, int tileRight, int charClass) {
-    super(name, posX, posY, tileLeft, tileRight);
+  public Player(String name, int posX, int posY, int tile, int charClass) {
+    super(name, posX, posY, tile);
     skills = new Skill[4];
     if (charClass == 0) {
       skills[0] = new WeaponSwing();
@@ -52,8 +52,6 @@ class Player extends Dynamic {
         dynamicsPositionMap.update(posX, posY, posX-1, posY);
         posX -= 1;
       }
-
-      direction_image = 0;
       break;
     case D_RIGHT:  
       if (terrainMap.isStepable(posX+1, posY)) {
@@ -61,8 +59,6 @@ class Player extends Dynamic {
         dynamicsPositionMap.update(posX, posY, posX+1, posY);
         posX += 1;
       }
-
-      direction_image = 1;
       break;
     }
   }
