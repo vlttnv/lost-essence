@@ -44,7 +44,7 @@ void setup() {
 
   // Maps
   dynamicsPositionMap =  new PositionMap();
-  terrainMap = new Map(loadedTiles, "simple.map");
+  terrainMap = new Map(loadedTiles, "starting.map");
 
 
   //Dynamic test = new Hostile("a", 1, 1, 1, 1, 1, 1, 1, 1);
