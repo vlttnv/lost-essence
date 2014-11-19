@@ -26,9 +26,9 @@ class Tiles {
     // x<100 are static map tiles
     // 100<x<200 player, NPCs and dynamic items
     // x>200 other
-    tiles = new PImage[300];
+    tiles = new PImage[400];
     try {
-      for (int i=0; i<300; i++) {
+      for (int i=0; i<400; i++) {
         tiles[i] = loadImage(i + ".png");
       }
     } 

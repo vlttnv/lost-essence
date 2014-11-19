@@ -12,6 +12,7 @@ class Player extends Dynamic {
   int dmg;
 
   Skill[] skills;
+  int[] inventory;
 
 
 
@@ -19,6 +20,12 @@ class Player extends Dynamic {
   public Player(String name, int posX, int posY, int tile, int charClass) {
     super(name, posX, posY, tile);
     skills = new Skill[4];
+    inventory = new int[10];
+    inventory[0] = 300;
+    inventory[1] = 301;
+    inventory[2] = 302;
+    inventory[3] = 303;
+    inventory[4] = 304;
     if (charClass == 0) {
       skills[0] = new WeaponSwing();
       skills[1] = new Charge();
@@ -79,6 +86,14 @@ class Player extends Dynamic {
   }
 
   public void attack(int dmg) {
+  }
+
+  public void drawItems() {
+    for (int i=0; i<inventory.length; i++) {
+      if (inventory[i] != 0) {
+        image(loadedTiles.get(inventory[i]), posX*videoScale, posY*videoScale);
+      }
+    }
   }
 }
 

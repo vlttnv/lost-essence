@@ -13,6 +13,7 @@ Player p;
 Hostile h;
 Friendly f;
 Entrance entr;
+Dynamic[] hosts;
 
 Tiles loadedTiles;
 
@@ -55,6 +56,7 @@ void setup() {
   p = new Player("Bob", 5, 5, 100, 0);
   h = new Hostile("Zombie", 10, 10, 100, 5, 10, 1, 1, 100);
   entr = new Entrance("Portal", 27,9, 150, 11, 12, "dungeon.map");
+  hosts = new Dynamic[10];
   //f = new Friendly("mob2", 20, 20, 100, 100);
 }
 
@@ -67,6 +69,7 @@ void draw() {
     background(30, 140, 30);
     terrainMap.drawMap();
     dynamicsPositionMap.drawMap();
+    p.drawItems();
     //p.drawPlayer();
     if (drawCharStats) {
       ui.drawCharStats(p);
@@ -74,10 +77,7 @@ void draw() {
     if (particle != null) {
       particle.integrate();
       PVector position = particle.position;
-      float xx = PVector.angleBetween(new PVector(0, 0), position);
-      //rect(position.x, position.y, 5, 5) ;
-      rotate(xx);
-      image(loadedTiles.fireball, position.x, position.y);
+      image(loadedTiles.get(151), position.x, position.y);
     }
   }
 }

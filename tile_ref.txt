@@ -16,10 +16,19 @@
 100	- base human
 101	- base orc
 102	- base elf
+110	- iron troll
 131	- stone wall
 132	- stona wall big
 133	- stone wall vines
 141	- brick wall
 150 	- portal
+151	- eye of dev
+152	- stairs up
+153	- stairs down
 160	- water
 161	- water buble
+300	- vest
+301	- pants 1
+302	- simple sword
+303	- boots 1
+304	- simple shield

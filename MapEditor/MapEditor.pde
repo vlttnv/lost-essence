@@ -52,3 +52,7 @@ void keyPressed() {
   }
 }
 
+void stop() {
+  terrainMap.saveMap();
+}
+
