@@ -78,13 +78,73 @@ class Map {
         } else {
           line = line + Integer.toString(map[i][j]) + ",";
         }
-        
       }
       output.println(line);
     }
     output.flush();  // Writes the remaining data to the file
     output.close();  // Finishes the file
     exit();
+  }
+
+  public void generateMap() {
+    for (int i = 0; i < cols; i++) {
+      // Begin loop for rows
+      for (int j = 0; j < rows; j++) {
+        // Scaling up to draw a rectangle at (x,y)
+        int x = i*videoScale;
+        int y = j*videoScale;
+
+        if (j == 0 || j == rows-1) {
+          map[j][i] = 141;
+        } else if (i ==0 || i == cols-1) {
+          map[j][i] = 141;
+        } else {
+          map[j][i] = 41;
+        }
+      }
+    }
+    goDeeper(0, cols-1, 0, rows-1, 0);
+  }
+
+  private void goDeeper(int x_0, int x_max, int y_0, int y_max, int level) {
+    if (level == 3) return;
+
+
+    float rnd = random(2);
+
+    if (rnd < 1) {
+      int border = (int)random(x_0, x_max);
+      //      while (map[y_0][border+1] == 141 || map[y_0][border-1] == 141) {
+      //        border = (int)random(x_0, x_max);
+      //      }
+      int door = (int)random(y_0+1, y_max-1);
+      for (int i=y_0; i<=y_max; i++) {
+        if (i==door) {
+          println("lol");
+          map[i][(x_max-x_0)/2 + x_0]=41;
+        } else {
+          map[i][(x_max-x_0)/2 + x_0]=141;
+        }
+      }
+      goDeeper(x_0, x_max/2, y_0, y_max, level+1);
+      goDeeper((x_max-x_0)/2 + x_0, x_max, y_0, y_max, level+1);
+      //goDeeper(x_max/2, x_max, y_0, y_max, level+1);
+    } else if (rnd >= 1) {
+      int border = (int)random(y_0, y_max);
+      //      while (map[border+1][x_0] == 141 || map[border-1][x_0] == 141) {
+      //        border = (int)random(y_0, y_max);
+      //      }
+      int door = (int)random(x_0+1, x_max-1);
+      for (int i=x_0; i<=x_max; i++) {
+        if (i==door) {
+          map[(y_max-y_0)/2 + y_0][i]=41;
+        } else {
+          map[(y_max-y_0)/2 + y_0][i]=141;
+        }
+      }
+      goDeeper(x_0, x_max, y_0, y_max/2, level+1);
+      goDeeper( x_0, x_max, (y_max-y_0)/2 + y_0, y_max, level+1);
+    }
   }
 }
 

@@ -23,7 +23,7 @@ class Entrance extends Dynamic {
 
 
     
-    terrainMap = new Map(loadedTiles, map);
+    terrainMap = new Map(map);
     dynamicsPositionMap =  new PositionMap();
     p.posX = newX;
     p.posY = newY;

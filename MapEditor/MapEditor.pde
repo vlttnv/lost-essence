@@ -47,6 +47,8 @@ void keyPressed() {
   } else if (typing && key == '\n') {
     tile = Integer.parseInt(temp);
     typing = false;
+  } else if (!typing && key == 'g') {
+    terrainMap.generateMap();
   } else {
     temp = temp + key;
   }

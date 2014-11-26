@@ -1,14 +1,21 @@
-// Screen variables
+/*-----------------
+ Screen Variables
+ -------------------*/
 static final int WIDTH = 1280;
 static final int HEIGHT = 704;
 int videoScale = 32;
 int rows, cols;
 
-// Maps
+/*-----------------
+ Maps
+ -------------------*/
 Map terrainMap;
 PositionMap dynamicsPositionMap;
+ArrayList<Map> mapStack;
 
-// Player and NPCs
+/*-----------------
+ Player and NPCs
+ -------------------*/
 Player p;
 Hostile h;
 Friendly f;
@@ -17,7 +24,9 @@ Dynamic[] hosts;
 
 Tiles loadedTiles;
 
-// UI
+/*-----------------
+ UI Components
+ -------------------*/
 UI ui;
 boolean drawCharStats = false;
 boolean mainMenu = false;
@@ -25,12 +34,14 @@ PFont font;
 String typing = "";
 String playerName = "";
 
-// Skill
+/*-----------------
+ Skills
+ -------------------*/
 Particle particle;
 
 // Setup call
 void setup() {
-  font = createFont("Arial",16,true);
+  font = createFont("Arial", 16, true);
   frameRate(120);
   // Screen
   size(WIDTH, HEIGHT);
@@ -44,8 +55,10 @@ void setup() {
   loadedTiles = new Tiles();
 
   // Maps
+  mapStack = new ArrayList<Map>();
   dynamicsPositionMap =  new PositionMap();
-  terrainMap = new Map(loadedTiles, "starting.map");
+  terrainMap = new Map("starting.map");
+  mapStack.add(terrainMap);
 
 
   //Dynamic test = new Hostile("a", 1, 1, 1, 1, 1, 1, 1, 1);
@@ -55,7 +68,7 @@ void setup() {
 
   p = new Player("Bob", 5, 5, 100, 0);
   h = new Hostile("Zombie", 10, 10, 100, 5, 10, 1, 1, 100);
-  entr = new Entrance("Portal", 27,9, 150, 11, 12, "dungeon.map");
+  entr = new Entrance("Portal", 27, 9, 150, 11, 12, "dungeon.map");
   hosts = new Dynamic[10];
   //f = new Friendly("mob2", 20, 20, 100, 100);
 }
@@ -66,7 +79,7 @@ void draw() {
     ui.drawMainMenu();
   } else {
     //println(frameRate);
-    background(30, 140, 30);
+    background(0, 0, 0);
     terrainMap.drawMap();
     dynamicsPositionMap.drawMap();
     p.drawItems();
@@ -115,7 +128,7 @@ void keyPressed() {
       s.use(d);
     }
     if (key == '2') {
-       Skill s = p.skills[1];
+      Skill s = p.skills[1];
       Dynamic d = dynamicsPositionMap.get(mouseX/videoScale, mouseY/videoScale);
       s.use(d);
     }

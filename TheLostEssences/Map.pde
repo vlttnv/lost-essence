@@ -1,25 +1,19 @@
 class Map {
-  //int mapWidth;
-  //int mapHeight;
-
-  // Tile variables
-  PImage grass, stone, water;
-
-  // Loaded tiles
-  Tiles tiles;
 
   // Map
   int[][] map;
+  int mapType;
 
-  public Map(Tiles tiles, String mapName) {
+  public Map(String mapName) {
     BufferedReader reader = createReader("maps/" + mapName);
-    this.tiles = tiles;
     map = new int[rows][cols];
 
     String line;
     String[] split;
     int rowCounter = 0;
+
     try {
+      // Read map from .map file and populate 2D array
       while ( (line = reader.readLine ()) != null) {
         split = split(line, ',');
         for (int i=0; i<split.length; i++) {
@@ -48,18 +42,27 @@ class Map {
         int x = i*videoScale;
         int y = j*videoScale;
 
-        // For every column and row, a rectangle is drawn at an (x,y) location scaled and sized by videoScale.
+        // For every column and row, a tiles is drawn at an (x,y) location scaled and sized by videoScale.
         if (map[j][i] != -1) {
-          image(tiles.get(map[j][i]), x, y);
+          //if (abs(j - p.posY) < 7 && abs(i - p.posX) < 7) {
+          image(loadedTiles.get(map[j][i]), x, y);
+          //} else {
+
+          //}
         }
       }
     }
   }
 
   public boolean isStepable(int x, int y) {
+    // Out of bounds?
     if (y>rows-1 || x>cols-1) return false;
     if (y<0 || x<0) return false;
+    
+    // Is there a dynamic here?
     if (dynamicsPositionMap.get(x, y) != null) return false;
+    
+    // Is it a stepable tile? Right now tiles with a number under 100 are stepable
     if (map[y][x] < 100) {
       return true;
     } else {
