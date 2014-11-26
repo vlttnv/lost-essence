@@ -18,16 +18,12 @@ class Entrance extends Dynamic {
   }
 
   public void click() {
-    println("I am a " + name);
-
-
-
-    
-    terrainMap = new Map(map);
+    println("I am a " + name); 
+    terrainMap = new Map(1);
     dynamicsPositionMap =  new PositionMap();
     p.posX = newX;
     p.posY = newY;
-    new Entrance("Portal", p.posX,p.posY+1, 150, 11, 12, "starting.map");
+    //new Entrance("Portal", p.posX,p.posY+1, 150, 11, 12, "starting.map");
     new Entrance("Portal", (int)random(0, cols-1), (int)random(0, rows-1), 150, 11, 12, "dungeon.map");
     
     dynamicsPositionMap.register(p, newX, newY);
