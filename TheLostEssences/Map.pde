@@ -38,6 +38,10 @@ class Map {
     }
   }
 
+  public int get(int x, int y) {
+    return map[y][x];
+  }
+
   public void drawMap() {
     // Begin loop for columns
     //    for (int i = 0; i < cols; i++) {
@@ -69,86 +73,104 @@ class Map {
     //      }
     //    }
 
+    //    for (int i=0; i<=7; i++) {
+    //      boolean dr = true;
+    //      PVector end = new PVector((p.posX*videoScale-3*videoScale)+i*videoScale, p.posY*videoScale-4*videoScale);
+    //      PVector start = new PVector(p.posX*videoScale, p.posY*videoScale);
+    //      
+    //      PVector middle;
+    //      for (float z=0.0; z<=1; z=z+0.1) {
+    //        middle = PVector.lerp(start, end, z);
+    //        if (((int)middle.y>=0 && (int)middle.y<rows*videoScale) && ((int)middle.x>=0 && (int)middle.x<cols*videoScale)) {
+    //          
+    //          if (map[(int)middle.y/ videoScale][(int)middle.x/ videoScale] <100 && dr) {
+    //            println("test");
+    //            image(loadedTiles.get(map[(int)middle.y/ videoScale][(int)middle.x/ videoScale]), (int)middle.x, (int)middle.y);
+    //          } else if (map[(int)middle.y/ videoScale][(int)middle.x/ videoScale] > 100 && dr) {
+    //            image(loadedTiles.get(map[(int)middle.y/ videoScale][(int)middle.x/ videoScale]), (int)middle.x, (int)middle.y);
+    //            dr = false;
+    //          }
+    //        }
+    //      }
+    //      //line(((p.posX-3)+i) * videoScale, (p.posY-4)* videoScale, p.posX* videoScale, p.posY* videoScale);
+    //    }
+
     for (int i=0; i<=7; i++) {
       boolean dr = true;
-      PVector end = new PVector((p.posX*videoScale-3*videoScale)+i*videoScale, p.posY*videoScale-4*videoScale);
-      PVector start = new PVector(p.posX*videoScale, p.posY*videoScale);
-      
+      PVector end = new PVector((p.posX-3)+i, p.posY-3);
+      PVector start = new PVector(p.posX, p.posY);
       PVector middle;
       for (float z=0.0; z<=1; z=z+0.1) {
         middle = PVector.lerp(start, end, z);
-        if (((int)middle.y>=0 && (int)middle.y<rows*videoScale) && ((int)middle.x>=0 && (int)middle.x<cols*videoScale)) {
-          
-          if (map[(int)middle.y/ videoScale][(int)middle.x/ videoScale] <100 && dr) {
-            println("test");
-            image(loadedTiles.get(map[(int)middle.y/ videoScale][(int)middle.x/ videoScale]), (int)middle.x, (int)middle.y);
-          } else if (map[(int)middle.y/ videoScale][(int)middle.x/ videoScale] > 100 && dr) {
-            image(loadedTiles.get(map[(int)middle.y/ videoScale][(int)middle.x/ videoScale]), (int)middle.x, (int)middle.y);
+        if (((int)middle.y>=0 && (int)middle.y<rows) && ((int)middle.x>=0 && (int)middle.x<cols)) {
+          if (map[(int)middle.y][(int)middle.x] <100 && dr) {
+            image(loadedTiles.get(map[(int)middle.y][(int)middle.x]), (int)middle.x * videoScale, (int)middle.y * videoScale);
+          } else if (map[(int)middle.y][(int)middle.x] > 100 && dr) {
+            image(loadedTiles.get(map[(int)middle.y][(int)middle.x]), (int)middle.x * videoScale, (int)middle.y * videoScale);
             dr = false;
           }
         }
       }
-      //line(((p.posX-3)+i) * videoScale, (p.posY-4)* videoScale, p.posX* videoScale, p.posY* videoScale);
     }
 
-//    for (int i=0; i<=7; i++) {
-//      boolean dr = true;
-//      PVector end = new PVector((p.posX-3)+i, p.posY+4);
-//      PVector start = new PVector(p.posX, p.posY);
-//      PVector middle;
-//      for (float z=0.0; z<=1; z=z+0.1) {
-//        middle = PVector.lerp(start, end, z);
-//        if (((int)middle.y>=0 && (int)middle.y<rows) && ((int)middle.x>=0 && (int)middle.x<cols)) {
-//          if (map[(int)middle.y][(int)middle.x] <100 && dr) {
-//            image(loadedTiles.get(map[(int)middle.y][(int)middle.x]), (int)middle.x * videoScale, (int)middle.y * videoScale);
-//          } else if (map[(int)middle.y][(int)middle.x] > 100 && dr) {
-//            image(loadedTiles.get(map[(int)middle.y][(int)middle.x]), (int)middle.x * videoScale, (int)middle.y * videoScale);
-//            dr = false;
-//          }
-//        }
-//      }
-//    }
-//
-//    for (int i=0; i<=7; i++) {
-//      boolean dr = true;
-//      PVector end = new PVector(p.posX+4, (p.posY-3)+i);
-//      PVector start = new PVector(p.posX, p.posY);
-//      PVector middle;
-//      for (float z=0.0; z<=1; z=z+0.1) {
-//        middle = PVector.lerp(start, end, z);
-//        if (((int)middle.y>=0 && (int)middle.y<rows) && ((int)middle.x>=0 && (int)middle.x<cols)) {
-//          if (map[(int)middle.y][(int)middle.x] <100 && dr) {
-//            if (((int)middle.y>=0 && (int)middle.y<rows-1) && ((int)middle.x>=0 && (int)middle.x<cols-1)) {
-//              image(loadedTiles.get(map[(int)middle.y][(int)middle.x]), (int)middle.x * videoScale, (int)middle.y * videoScale);
-//            }
-//          } else if (map[(int)middle.y][(int)middle.x] > 100 && dr) {
-//            if (((int)middle.y>=0 && (int)middle.y<rows-1) && ((int)middle.x>=0 && (int)middle.x<cols-1)) {
-//              image(loadedTiles.get(map[(int)middle.y][(int)middle.x]), (int)middle.x * videoScale, (int)middle.y * videoScale);
-//            }
-//            dr = false;
-//          }
-//        }
-//      }
-//    }
-//
-//    for (int i=0; i<=7; i++) {
-//      boolean dr = true;
-//      PVector end = new PVector(p.posX-3, (p.posY-3)+i);
-//      PVector start = new PVector(p.posX, p.posY);
-//      PVector middle;
-//
-//      for (float z=0.0; z<=1; z=z+0.1) {
-//        middle = PVector.lerp(start, end, z);
-//        if (((int)middle.y>=0 && (int)middle.y<rows) && ((int)middle.x>=0 && (int)middle.x<cols)) {
-//          if (map[(int)middle.y][(int)middle.x] <100 && dr) {
-//            image(loadedTiles.get(map[(int)middle.y][(int)middle.x]), (int)middle.x * videoScale, (int)middle.y * videoScale);
-//          } else if (map[(int)middle.y][(int)middle.x] > 100 && dr) {
-//            image(loadedTiles.get(map[(int)middle.y][(int)middle.x]), (int)middle.x * videoScale, (int)middle.y * videoScale);
-//            dr = false;
-//          }
-//        }
-//      }
-//    }
+    for (int i=0; i<=7; i++) {
+      boolean dr = true;
+      PVector end = new PVector((p.posX-3)+i, p.posY+4);
+      PVector start = new PVector(p.posX, p.posY);
+      PVector middle;
+      for (float z=0.0; z<=1; z=z+0.1) {
+        middle = PVector.lerp(start, end, z);
+        if (((int)middle.y>=0 && (int)middle.y<rows) && ((int)middle.x>=0 && (int)middle.x<cols)) {
+          if (map[(int)middle.y][(int)middle.x] <100 && dr) {
+            image(loadedTiles.get(map[(int)middle.y][(int)middle.x]), (int)middle.x * videoScale, (int)middle.y * videoScale);
+          } else if (map[(int)middle.y][(int)middle.x] > 100 && dr) {
+            image(loadedTiles.get(map[(int)middle.y][(int)middle.x]), (int)middle.x * videoScale, (int)middle.y * videoScale);
+            dr = false;
+          }
+        }
+      }
+    }
+
+    for (int i=0; i<=7; i++) {
+      boolean dr = true;
+      PVector end = new PVector(p.posX+4, (p.posY-3)+i);
+      PVector start = new PVector(p.posX, p.posY);
+      PVector middle;
+      for (float z=0.0; z<=1; z=z+0.1) {
+        middle = PVector.lerp(start, end, z);
+        if (((int)middle.y>=0 && (int)middle.y<rows) && ((int)middle.x>=0 && (int)middle.x<cols)) {
+          if (map[(int)middle.y][(int)middle.x] <100 && dr) {
+            if (((int)middle.y>=0 && (int)middle.y<rows-1) && ((int)middle.x>=0 && (int)middle.x<cols-1)) {
+              image(loadedTiles.get(map[(int)middle.y][(int)middle.x]), (int)middle.x * videoScale, (int)middle.y * videoScale);
+            }
+          } else if (map[(int)middle.y][(int)middle.x] > 100 && dr) {
+            if (((int)middle.y>=0 && (int)middle.y<rows-1) && ((int)middle.x>=0 && (int)middle.x<cols-1)) {
+              image(loadedTiles.get(map[(int)middle.y][(int)middle.x]), (int)middle.x * videoScale, (int)middle.y * videoScale);
+            }
+            dr = false;
+          }
+        }
+      }
+    }
+
+    for (int i=0; i<=7; i++) {
+      boolean dr = true;
+      PVector end = new PVector(p.posX-3, (p.posY-3)+i);
+      PVector start = new PVector(p.posX, p.posY);
+      PVector middle;
+
+      for (float z=0.0; z<=1; z=z+0.1) {
+        middle = PVector.lerp(start, end, z);
+        if (((int)middle.y>=0 && (int)middle.y<rows) && ((int)middle.x>=0 && (int)middle.x<cols)) {
+          if (map[(int)middle.y][(int)middle.x] <100 && dr) {
+            image(loadedTiles.get(map[(int)middle.y][(int)middle.x]), (int)middle.x * videoScale, (int)middle.y * videoScale);
+          } else if (map[(int)middle.y][(int)middle.x] > 100 && dr) {
+            image(loadedTiles.get(map[(int)middle.y][(int)middle.x]), (int)middle.x * videoScale, (int)middle.y * videoScale);
+            dr = false;
+          }
+        }
+      }
+    }
   }
 
   public boolean isStepable(int x, int y) {

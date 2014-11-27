@@ -37,9 +37,11 @@ class Hostile extends NPC {
     //do stuff
     dynamicsPositionMap.deregister(posX, posY);
     dropLoot();
+    p.giveXP(lvl);
   }
 
   private void dropLoot() {
+    new Item("Sword", posX, posY, 305, Item.HAND_L);
     println("dopped some lewt");
   }
 }

@@ -32,3 +32,4 @@
 302	- simple sword
 303	- boots 1
 304	- simple shield
+305	- blessed blade

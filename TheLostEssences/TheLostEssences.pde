@@ -29,7 +29,7 @@ Tiles loadedTiles;
  -------------------*/
 UI ui;
 boolean drawCharStats = false;
-boolean mainMenu = false;
+boolean mainMenu = true;
 PFont font;
 String typing = "";
 String playerName = "";
@@ -92,6 +92,7 @@ void draw() {
       PVector position = particle.position;
       image(loadedTiles.get(151), position.x, position.y);
     }
+    ui.drawMainUI();
   }
 }
 
@@ -146,17 +147,30 @@ void keyPressed() {
 }
 
 void mouseClicked() {
-  //p.teleportPlayer(mouseX, mouseY);
-  Dynamic temp = dynamicsPositionMap.get(mouseX / videoScale, mouseY / videoScale);
 
-  if (temp != null) {
-    if (abs(mouseX/videoScale-p.posX) <=1 && abs(mouseY/videoScale-p.posY) <= 1) {
-      if (mouseButton == LEFT) {
-        temp.click();
-      } else if (mouseButton == RIGHT) {
-        temp.attack(5);
-        println(p.posX);
-        particle = new Particle(p.posX * videoScale, p.posY  * videoScale, (mouseX-p.posX* videoScale), (mouseY - p.posY* videoScale), 0f, 0f) ;
+  if (mainMenu) {
+    if ((mouseX>25 && mouseX<122) && (mouseY>100 && mouseY<154)) {
+      p.setUpWarrior();
+      
+    }
+    if ((mouseX>28 && mouseX<123) && (mouseY>220 && mouseY<272)) {
+      p.setOrc();
+      mainMenu = false;
+      
+    }
+  } else {
+    //p.teleportPlayer(mouseX, mouseY);
+    Dynamic temp = dynamicsPositionMap.get(mouseX / videoScale, mouseY / videoScale);
+
+    if (temp != null) {
+      if (abs(mouseX/videoScale-p.posX) <=1 && abs(mouseY/videoScale-p.posY) <= 1) {
+        if (mouseButton == LEFT) {
+          temp.click();
+        } else if (mouseButton == RIGHT) {
+          temp.attack(5);
+          println(p.posX);
+          particle = new Particle(p.posX * videoScale, p.posY  * videoScale, (mouseX-p.posX* videoScale), (mouseY - p.posY* videoScale), 0f, 0f) ;
+        }
       }
     }
   }

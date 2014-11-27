@@ -21,11 +21,12 @@ class Player extends Dynamic {
     super(name, posX, posY, tile);
     skills = new Skill[4];
     inventory = new int[10];
-    inventory[0] = 300;
-    inventory[1] = 301;
-    inventory[2] = 302;
-    inventory[3] = 303;
-    inventory[4] = 304;
+    inventory[0] = 302; //LEFT
+    inventory[1] = 304; //RIGHT
+    inventory[2] = 300; //CHEST 
+    inventory[3] = 300; //HEAD
+    inventory[4] = 301; //LEGS
+    inventory[5] = 303; //FEET
     if (charClass == 0) {
       skills[0] = new WeaponSwing();
       skills[1] = new Charge();
@@ -94,6 +95,33 @@ class Player extends Dynamic {
         image(loadedTiles.get(inventory[i]), posX*videoScale, posY*videoScale);
       }
     }
+  }
+
+  public String getCharClass() {
+    if (charClass == 0) {
+      return "Warrior";
+    } else if (charClass == 1) {
+      return "Wizard";
+    } else {
+     return "peasant";
+    }
+  }
+  
+  public void setUpWarrior() {
+    charClass = 0;
+    hp = 12;
+    level = 1;
+  }
+  
+  public void setOrc() {
+    tile = 101;
+  }
+  public void giveXP(int i) {
+    xp += i;
+  }
+  
+  public void equip(int item, int slot) {
+    inventory[slot] = item;
   }
 }
 
