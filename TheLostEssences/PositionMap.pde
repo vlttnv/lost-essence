@@ -21,6 +21,27 @@ class PositionMap {
     map[y][x] = null;
   }
 
+  public void drawOutdoors() {
+    // Begin loop for columns
+    for (int i = 0; i < cols; i++) {
+      // Begin loop for rows
+      for (int j = 0; j < rows; j++) {
+        // Scaling up to draw a rectangle at (x,y)
+        int x = i*videoScale;
+        int y = j*videoScale;
+
+        // For every column and row, a rectangle is drawn at an (x,y) location scaled and sized by videoScale.
+        if (map[j][i] != null) {
+          Dynamic d = map[j][i];
+          image(loadedTiles.get(d.getTileNumber()), x, y);
+          textSize(12);
+          textAlign(CENTER);
+          text(d.getName(), d.getX()*videoScale + 16, d.getY()*videoScale);
+        }
+      }
+    }
+  }
+
   public void drawMap() {
     // Begin loop for columns
     for (int i = 0; i < cols; i++) {
@@ -42,7 +63,7 @@ class PositionMap {
             for (float z=0.0; z<=1; z=z+0.1) {
               middle = PVector.lerp(start, end, z);
               if (((int)middle.y>=0 && (int)middle.y<rows) && ((int)middle.x>=0 && (int)middle.x<cols)) {
-                if (terrainMap.get((int)middle.x,(int)middle.y) > 100 && dr) {
+                if (terrainMap.get((int)middle.x, (int)middle.y) > 100 && dr) {
                   dr = false;
                 }
               }

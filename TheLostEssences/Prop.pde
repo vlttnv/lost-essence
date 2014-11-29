@@ -1,0 +1,23 @@
+class Prop extends Dynamic {
+  int newX;
+  int newY;
+  String map;
+  
+  public Prop( 
+  int x, 
+  int y, 
+  int tile) {
+    super("", x, y, tile);
+    dynamicsPositionMap.register(this, posX, posY);
+  }
+  
+  public void click() {
+    
+  }
+  
+  public void attack(int dmg) {
+    
+  }
+  
+  
+}

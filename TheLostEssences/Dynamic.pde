@@ -23,7 +23,7 @@ abstract class Dynamic {
 
   }
   
-  public String getnName() { 
+  public String getDName() { 
     return name;
   }
   public int getX() {

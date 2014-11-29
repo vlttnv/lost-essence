@@ -29,6 +29,10 @@ void setup() {
 
 void draw() {
   terrainMap.drawMap();
+  textSize(32);
+  text(mouseY/videoScale, 10, 30); 
+  fill(0, 102, 153);
+  text(mouseX/videoScale, 10, 60);
 }
 
 void mouseDragged() {

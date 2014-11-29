@@ -68,7 +68,7 @@ void setup() {
 
   p = new Player("Bob", 5, 5, 100, 0);
   h = new Hostile("Zombie", 10, 10, 100, 5, 10, 1, 1, 100);
-  entr = new Entrance("Portal", 27, 9, 150, 11, 12, "dungeon.map");
+  entr = new Entrance("Portal", 27, 9, 150, 11, 12, "random_dungeon", Entrance.D_DOWN);
   hosts = new Dynamic[10];
   //f = new Friendly("mob2", 20, 20, 100, 100);
 }
@@ -80,8 +80,15 @@ void draw() {
   } else {
     //println(frameRate);
     background(0, 0, 0);
-    terrainMap.drawMap();
-    dynamicsPositionMap.drawMap();
+    if (terrainMap.isDungeon()) {
+      terrainMap.drawMap();
+      dynamicsPositionMap.drawMap();
+    } else {
+      terrainMap.drawOutdoors();
+      dynamicsPositionMap.drawOutdoors();
+    }
+
+    
     p.drawItems();
     //p.drawPlayer();
     if (drawCharStats) {
@@ -151,12 +158,10 @@ void mouseClicked() {
   if (mainMenu) {
     if ((mouseX>25 && mouseX<122) && (mouseY>100 && mouseY<154)) {
       p.setUpWarrior();
-      
     }
     if ((mouseX>28 && mouseX<123) && (mouseY>220 && mouseY<272)) {
       p.setOrc();
       mainMenu = false;
-      
     }
   } else {
     //p.teleportPlayer(mouseX, mouseY);

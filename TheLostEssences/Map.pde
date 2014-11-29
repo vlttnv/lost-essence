@@ -1,24 +1,69 @@
 class Map {
+  public static final int NON_DUNGEON = 0;
+  public static final int DUNGEON = 1;
+  public static final int EAST = 0;
+  public static final int WEST = 1;
+  public static final int NORTH = 2;
+  public static final int SOUTH = 3;
 
   // Map
   int[][] map;
   int mapType;
+  String mapName;
+
+  String eastMap;
+  String westMap;
+  String northMap;
+  String southMap;
 
   public Map(int type) {
     map = new int[rows][cols];
+    mapType = type;
     generateMap();
   }
 
   public Map(String mapName) {
     BufferedReader reader = createReader("maps/" + mapName);
+    this.mapName = mapName;
     map = new int[rows][cols];
 
     String line;
     String[] split;
+    String[] props;
+    String[] entrances;
     int rowCounter = 0;
 
+
+
     try {
-      // Read map from .map file and populate 2D array
+      mapType = Integer.parseInt(reader.readLine());
+      eastMap = reader.readLine();
+      westMap = reader.readLine();
+      northMap = reader.readLine();
+      southMap = reader.readLine();
+      line = reader.readLine();
+
+      if (line.length() != 0) {
+        props = split(line, ',');
+        for (int i=0; i<props.length; i++) {
+
+          String[] data = split(props[i], ' ');
+          new Prop(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+        }
+      }
+
+      line = reader.readLine();
+      if (line.length() != 0) {
+        entrances = split(line, ',');
+        for (int i=0; i<entrances.length; i++) {
+
+          String[] data = split(entrances[i], ' ');
+          new Entrance("", Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4]), data[5], 0);
+        }
+      }
+
+
+
       while ( (line = reader.readLine ()) != null) {
         split = split(line, ',');
         for (int i=0; i<split.length; i++) {
@@ -41,6 +86,21 @@ class Map {
   public int get(int x, int y) {
     return map[y][x];
   }
+
+  public void drawOutdoors() {
+    for (int i = 0; i < cols; i++) {
+      // Begin loop for rows
+      for (int j = 0; j < rows; j++) {
+        // Scaling up to draw a rectangle at (x,y)
+        int x = i*videoScale;
+        int y = j*videoScale;
+
+        // For every column and row, a tiles is drawn at an (x,y) location scaled and sized by videoScale.
+        image(loadedTiles.get(map[j][i]), x, y);
+      }
+    }
+  }
+
 
   public void drawMap() {
     // Begin loop for columns
@@ -248,6 +308,31 @@ class Map {
       goDeeper(x_0, x_max, y_0, y_max/2, level+1);
       goDeeper( x_0, x_max, (y_max-y_0)/2 + y_0, y_max, level+1);
     }
+  }
+
+  public boolean isDungeon() {
+    if (mapType ==  1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  public String getMapDirection(int direction) {
+    if (direction == EAST) {
+      return eastMap;
+    } else if (direction == WEST) {
+      return westMap;
+    } else if (direction == NORTH) {
+      return northMap;
+    } else if (direction == SOUTH) {
+      return southMap;
+    }
+    return "";
+  }
+
+  public String getMapName() {
+    println(this.mapName);
+    return this.mapName;
   }
 }
 

@@ -25,6 +25,7 @@
 151	- eye of dev
 152	- stairs up
 153	- stairs down
+154	- castle entrance
 160	- water
 161	- water buble
 300	- vest
@@ -33,3 +34,4 @@
 303	- boots 1
 304	- simple shield
 305	- blessed blade
+400	- torch

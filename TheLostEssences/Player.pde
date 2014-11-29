@@ -45,13 +45,33 @@ class Player extends Dynamic {
       if (terrainMap.isStepable(posX, posY -1)) {
         dynamicsPositionMap.update(posX, posY, posX, posY-1);
         posY -= 1;
+      } else {
+        String dir = terrainMap.getMapDirection(Map.NORTH);
+        if (dir != null) {
+          if (!dir.equals("0") && posY == 0) {
+            posY = rows - 1;
+            dynamicsPositionMap =  new PositionMap();
+            dynamicsPositionMap.register(p, posX, posY);
+            terrainMap = new Map(dir);
+          }
+        }
       }
       break;
     case D_DOWN: 
       if (terrainMap.isStepable(posX, posY+1)) {
         dynamicsPositionMap.update(posX, posY, posX, posY+1);
         posY += 1;
-      } 
+      } else {
+        String dir = terrainMap.getMapDirection(Map.SOUTH);
+        if (dir != null) {
+          if (!dir.equals("0") && posY == rows-1) {
+            posY = 0;
+            dynamicsPositionMap =  new PositionMap();
+            dynamicsPositionMap.register(p, posX, posY);
+            terrainMap = new Map(dir);
+          }
+        }
+      }
 
       break;
     case D_LEFT: 
@@ -103,23 +123,23 @@ class Player extends Dynamic {
     } else if (charClass == 1) {
       return "Wizard";
     } else {
-     return "peasant";
+      return "peasant";
     }
   }
-  
+
   public void setUpWarrior() {
     charClass = 0;
     hp = 12;
     level = 1;
   }
-  
+
   public void setOrc() {
     tile = 101;
   }
   public void giveXP(int i) {
     xp += i;
   }
-  
+
   public void equip(int item, int slot) {
     inventory[slot] = item;
   }
