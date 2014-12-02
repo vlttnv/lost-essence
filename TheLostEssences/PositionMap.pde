@@ -4,8 +4,6 @@ class PositionMap {
 
   public PositionMap() {
     map = new Dynamic[rows][cols];
-    println("ROWS " + rows);
-    println("COLS " + cols);
   }
 
   public void register(Dynamic d, int x, int y) {
@@ -89,8 +87,6 @@ class PositionMap {
   }
 
   public Dynamic get(int x, int y) {
-    println("X " + x);
-    println("Y " + y);
     return map[y][x];
   }
 }

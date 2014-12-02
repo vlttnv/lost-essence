@@ -283,7 +283,6 @@ class Map {
       int door = (int)random(y_0+1, y_max-1);
       for (int i=y_0; i<=y_max; i++) {
         if (i==door) {
-          println("lol");
           map[i][(x_max-x_0)/2 + x_0]=41;
         } else {
           map[i][(x_max-x_0)/2 + x_0]=141;
@@ -331,7 +330,6 @@ class Map {
   }
 
   public String getMapName() {
-    println(this.mapName);
     return this.mapName;
   }
 }

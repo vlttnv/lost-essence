@@ -58,7 +58,6 @@ void setup() {
   mapStack = new ArrayList<Map>();
   dynamicsPositionMap =  new PositionMap();
   terrainMap = new Map("starting.map");
-  mapStack.add(terrainMap);
 
 
   //Dynamic test = new Hostile("a", 1, 1, 1, 1, 1, 1, 1, 1);
@@ -81,8 +80,10 @@ void draw() {
     //println(frameRate);
     background(0, 0, 0);
     if (terrainMap.isDungeon()) {
-      terrainMap.drawMap();
-      dynamicsPositionMap.drawMap();
+//      terrainMap.drawMap();
+//      dynamicsPositionMap.drawMap();
+terrainMap.drawOutdoors();
+      dynamicsPositionMap.drawOutdoors();
     } else {
       terrainMap.drawOutdoors();
       dynamicsPositionMap.drawOutdoors();
@@ -173,7 +174,6 @@ void mouseClicked() {
           temp.click();
         } else if (mouseButton == RIGHT) {
           temp.attack(5);
-          println(p.posX);
           particle = new Particle(p.posX * videoScale, p.posY  * videoScale, (mouseX-p.posX* videoScale), (mouseY - p.posY* videoScale), 0f, 0f) ;
         }
       }
