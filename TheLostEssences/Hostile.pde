@@ -24,7 +24,6 @@ class Hostile extends NPC {
 
     hp = hp - (abs(dmg-armor));
     println("hp: " + hp);
-    p.attack(this.dmg);
     if (hp <= 0) {
       kill();
     }
@@ -39,7 +38,7 @@ class Hostile extends NPC {
   }
 
   private void dropLoot() {
-    drops.add(new Item("Sword", posX, posY, 305, Item.HAND_L));
+    //drops.add(new Item("Sword", posX, posY, 305, Item.HAND_L, 4));
     println("dopped some lewt");
   }
 
@@ -49,7 +48,7 @@ class Hostile extends NPC {
     for (int i=lvl; i>=0; i--) {
       hp = hp + i;
     }
-    armor = (hp * 10) / 100;
+    armor = 0;
     dmg = 4;
     for (int i=lvl; i>=0; i-=2) {
       dmg = dmg + i;
@@ -73,16 +72,26 @@ class Hostile extends NPC {
         }
       }
       if (dr) {
-        println("lol");
-        middle = PVector.lerp(start, end, 0.1);
-        if ((int)middle.x != p.posX && (int)middle.y != p.posY) {
-          dynamicsPositionMap.update(posX, posY, (int)middle.x, (int)middle.y);
+        start = new PVector((posX*videoScale)+16, (posY*videoScale)+14);
+        end = new PVector((p.posX*videoScale)+14, (p.posY*videoScale)+14);
+        middle = PVector.lerp(start, end, 0.3);
+        
+        int moveToX = (int)Math.round(middle.x)/videoScale;
+        int moveToY = (int)Math.round(middle.y)/videoScale;
+        
+         if (abs(posY - p.posY) <= 1 && abs(posX - p.posX) <= 1) {
+           p.attack(this.dmg);
+         }
 
-          posX = (int)middle.x;
-          posY = (int)middle.y;
-          println("X " + posX);
-          println("Y " + posY);
-        } else {
+        if (moveToX != p.posX ||  moveToY != p.posY) {
+          println(terrainMap.isStepable(moveToX, moveToY));
+          if (terrainMap.isStepable(moveToX, moveToY)) {
+
+            dynamicsPositionMap.update(posX, posY, moveToX, moveToY);
+
+            posX = moveToX;
+            posY = moveToY;
+          }
         }
       }
     } else {

@@ -10,15 +10,16 @@ class Item extends Dynamic {
   int def;
   int slot;
 
-  public Item(String name, int x, int y, int tile, int slot) {
+  public Item(String name, int x, int y, int tile, int slot, int dmg) {
     super(name, x, y, tile);
     this.slot= slot;
-    dynamicsPositionMap.register(this, posX, posY);
+    this.dmg = dmg;
+    //dynamicsPositionMap.register(this, posX, posY);
   }
 
   public void click() {
     dynamicsPositionMap.deregister(posX, posY);
-    p.equip(tile,slot);
+    //p.equip(tile,slot);
     drops.remove(this);
   }
   

@@ -9,11 +9,13 @@ class Player extends Dynamic {
   int race;
   int xp;
   int hp;
+  int maxHP;
   int dmg;
   int armor;
+  int atr;
 
   Skill[] skills;
-  int[] inventory;
+  Item[] inventory;
 
 
 
@@ -21,16 +23,14 @@ class Player extends Dynamic {
   public Player(String name, int posX, int posY, int tile, int charClass) {
     super(name, posX, posY, tile);
     skills = new Skill[4];
-    inventory = new int[10];
-    inventory[0] = 302; //LEFT
-    inventory[1] = 304; //RIGHT
-    inventory[2] = 300; //CHEST 
-    inventory[3] = 300; //HEAD
-    inventory[4] = 301; //LEGS
-    inventory[5] = 303; //FEET
+    inventory = new Item[10];
+    //inventory[0] = 302; //LEFT
+    //inventory[1] = 304; //RIGHT
+    //inventory[2] = 300; //CHEST 
+    //inventory[3] = 300; //HEAD
+    //inventory[4] = 301; //LEGS
+    //inventory[5] = 303; //FEET
     if (charClass == 0) {
-      skills[0] = new WeaponSwing();
-      skills[1] = new Charge();
     }
     dynamicsPositionMap.register(this, posX, posY);
     //dynamicsRenderMap.set(posX, posY, 100);
@@ -110,14 +110,14 @@ class Player extends Dynamic {
   public void attack(int dmg) {
     hp = hp - (abs(dmg-armor));
     if (hp <0) {
-     //p = null; 
+      //p = null;
     }
   }
 
   public void drawItems() {
     for (int i=0; i<inventory.length; i++) {
-      if (inventory[i] != 0) {
-        image(loadedTiles.get(inventory[i]), posX*videoScale, posY*videoScale);
+      if (inventory[i] != null) {
+        image(loadedTiles.get(inventory[i].tile), posX*videoScale, posY*videoScale);
       }
     }
   }
@@ -133,10 +133,17 @@ class Player extends Dynamic {
   }
 
   public void setUpWarrior() {
-    charClass = 0;
-    hp = 12;
+    // starting base 10 hp, 4str, 4armor
+
+
+      charClass = 0;
     level = 1;
     armor = 2;
+    atr = 4;
+    hp = maxHP = 12 + atr;
+    this.equip(new Item("Sword", -10, - 10, 302, Item.HAND_L, 4));
+    skills[0] = new WeaponSwing(451);
+    skills[1] = new Charge(452);
   }
 
   public void setOrc() {
@@ -146,8 +153,8 @@ class Player extends Dynamic {
     xp += i;
   }
 
-  public void equip(int item, int slot) {
-    inventory[slot] = item;
+  public void equip(Item item) {
+    inventory[item.slot] = item;
   }
 }
 

@@ -35,3 +35,11 @@
 304	- simple shield
 305	- blessed blade
 400	- torch
+450	- slot
+451	- swing
+452	- charge
+453	- warrior slot
+454	- 1
+455	- 2
+456	- 3
+457	- 4

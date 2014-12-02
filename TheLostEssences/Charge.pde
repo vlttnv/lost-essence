@@ -1,7 +1,7 @@
 class Charge extends Skill {
 
-  public Charge() {
-    super(10, 10);
+  public Charge(int tile) {
+    super(10, 10, tile);
     }
 
     public void use(Dynamic d) {

@@ -46,7 +46,7 @@ void setup() {
   font = createFont("Arial", 16, true);
   frameRate(120);
   // Screen
-  size(WIDTH, HEIGHT);
+  size(WIDTH, HEIGHT+32);
   cols = WIDTH/videoScale;
   rows = HEIGHT/videoScale;
 
@@ -81,8 +81,8 @@ void draw() {
     //println(frameRate);
     background(0, 0, 0);
     if (terrainMap.isDungeon()) {
-      //      terrainMap.drawMap();
-      //      dynamicsPositionMap.drawMap();
+      //terrainMap.drawMap();
+      //dynamicsPositionMap.drawMap();
       terrainMap.drawOutdoors();
       dynamicsPositionMap.drawOutdoors();
     } else {
@@ -93,7 +93,7 @@ void draw() {
     if (moveClock <120) {
       moveClock++;
     } else {
-      for (int i=0; i<hosts.size(); i++) {
+      for (int i=0; i<hosts.size (); i++) {
         hosts.get(i).moveRandom();
       }
       moveClock=0;
