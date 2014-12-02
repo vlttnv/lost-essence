@@ -4,12 +4,13 @@ class Player extends Dynamic {
   final int D_RIGHT = 2;
   final int D_DOWN = 3;
   //public int posX, posY;
-  int level;
+  public int level;
   int charClass;
   int race;
   int xp;
   int hp;
   int dmg;
+  int armor;
 
   Skill[] skills;
   int[] inventory;
@@ -107,6 +108,10 @@ class Player extends Dynamic {
   }
 
   public void attack(int dmg) {
+    hp = hp - (abs(dmg-armor));
+    if (hp <0) {
+     //p = null; 
+    }
   }
 
   public void drawItems() {
@@ -131,6 +136,7 @@ class Player extends Dynamic {
     charClass = 0;
     hp = 12;
     level = 1;
+    armor = 2;
   }
 
   public void setOrc() {

@@ -20,7 +20,9 @@ Player p;
 Hostile h;
 Friendly f;
 Entrance entr;
-Dynamic[] hosts;
+ArrayList<Hostile> hosts = new ArrayList<Hostile>();
+ArrayList<Item> drops = new ArrayList<Item>();
+int moveClock = 0;
 
 Tiles loadedTiles;
 
@@ -66,9 +68,8 @@ void setup() {
   //println(test2.getName());
 
   p = new Player("Bob", 5, 5, 100, 0);
-  h = new Hostile("Zombie", 10, 10, 100, 5, 10, 1, 1, 100);
+  //h = new Hostile("Zombie", 10, 10, 100, 5, 10, 1, 1, 100);
   entr = new Entrance("Portal", 27, 9, 150, 11, 12, "random_dungeon", Entrance.D_DOWN);
-  hosts = new Dynamic[10];
   //f = new Friendly("mob2", 20, 20, 100, 100);
 }
 
@@ -80,16 +81,25 @@ void draw() {
     //println(frameRate);
     background(0, 0, 0);
     if (terrainMap.isDungeon()) {
-//      terrainMap.drawMap();
-//      dynamicsPositionMap.drawMap();
-terrainMap.drawOutdoors();
+      //      terrainMap.drawMap();
+      //      dynamicsPositionMap.drawMap();
+      terrainMap.drawOutdoors();
       dynamicsPositionMap.drawOutdoors();
     } else {
       terrainMap.drawOutdoors();
       dynamicsPositionMap.drawOutdoors();
     }
 
-    
+    if (moveClock <120) {
+      moveClock++;
+    } else {
+      for (int i=0; i<hosts.size(); i++) {
+        hosts.get(i).moveRandom();
+      }
+      moveClock=0;
+    }
+
+
     p.drawItems();
     //p.drawPlayer();
     if (drawCharStats) {

@@ -19,6 +19,7 @@ class Item extends Dynamic {
   public void click() {
     dynamicsPositionMap.deregister(posX, posY);
     p.equip(tile,slot);
+    drops.remove(this);
   }
   
   public void attack(int i) {
