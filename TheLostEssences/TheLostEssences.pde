@@ -81,10 +81,10 @@ void draw() {
     //println(frameRate);
     background(0, 0, 0);
     if (terrainMap.isDungeon()) {
-      //terrainMap.drawMap();
-      //dynamicsPositionMap.drawMap();
-      terrainMap.drawOutdoors();
-      dynamicsPositionMap.drawOutdoors();
+      terrainMap.drawMap();
+      dynamicsPositionMap.drawMap();
+      //terrainMap.drawOutdoors();
+      //dynamicsPositionMap.drawOutdoors();
     } else {
       terrainMap.drawOutdoors();
       dynamicsPositionMap.drawOutdoors();
@@ -111,6 +111,20 @@ void draw() {
       image(loadedTiles.get(151), position.x, position.y);
     }
     ui.drawMainUI();
+    if ((mouseX >= 4*videoScale && mouseX <4*videoScale+32) && mouseY>rows*videoScale) {
+      ui.tooltip2(0);
+    } else if ((mouseX >= 5*videoScale && mouseX <5*videoScale+32) && mouseY>rows*videoScale) {
+      ui.tooltip2(1);
+    } else if ((mouseX >= 6*videoScale && mouseX <6*videoScale+32) && mouseY>rows*videoScale) {
+      ui.tooltip2(2);
+    } else if ((mouseX >= 7*videoScale && mouseX <7*videoScale+32) && mouseY>rows*videoScale) {
+      ui.tooltip2(3);
+    }
+    if ((mouseX>=0 && mouseX<WIDTH) && (mouseY>=0 && mouseY<HEIGHT)) {
+      if (dynamicsPositionMap.get(mouseX/videoScale, mouseY/videoScale) != null) {
+        ui.tooltip(dynamicsPositionMap.get(mouseX/videoScale, mouseY/videoScale));
+      }
+    }
   }
 }
 
@@ -183,8 +197,11 @@ void mouseClicked() {
         if (mouseButton == LEFT) {
           temp.click();
         } else if (mouseButton == RIGHT) {
-          temp.attack(5);
-          particle = new Particle(p.posX * videoScale, p.posY  * videoScale, (mouseX-p.posX* videoScale), (mouseY - p.posY* videoScale), 0f, 0f) ;
+          Skill s = p.skills[0];
+          Dynamic d = dynamicsPositionMap.get(mouseX/videoScale, mouseY/videoScale);
+          s.use(d);
+          //temp.attack(5);
+          //particle = new Particle(p.posX * videoScale, p.posY  * videoScale, (mouseX-p.posX* videoScale), (mouseY - p.posY* videoScale), 0f, 0f) ;
         }
       }
     }

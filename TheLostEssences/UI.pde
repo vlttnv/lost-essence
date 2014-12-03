@@ -74,6 +74,11 @@ class UI {
         image(loadedTiles.get(450), i*videoScale, rows*videoScale);
       }
     }
+    image(loadedTiles.get(458), 4*videoScale, rows*videoScale);
+    image(loadedTiles.get(459), 5*videoScale, rows*videoScale);
+    image(loadedTiles.get(460), 6*videoScale, rows*videoScale);
+    image(loadedTiles.get(461), 7*videoScale, rows*videoScale);
+
     //    for (int i=0; i<p.skills.length; i++) {
     //      if (p.skills[i] != null) {
     //        image(loadedTiles.get(p.skills[i].getTile()), i*videoScale, rows*videoScale);
@@ -91,6 +96,66 @@ class UI {
     fill(255, 255, 255);
     textAlign(CENTER);
     text((int)Math.round(percentage), bottomBar.length*videoScale+48, rows*videoScale+24);
+  }
+
+  public void tooltip(Dynamic d) {
+    if (d.type >=0 && d.type <=100) {
+      fill(0, 0, 0, 191);
+      rect(5, (rows-2)*videoScale, 100, 60, 6);
+      fill(255, 255, 255);
+      textSize(12);
+      textAlign(LEFT);
+      text(d.name, 10, (rows-2)*videoScale+12);
+      
+      if (d.type == 100) {
+        text("Damage " + p.dmg, 10, (rows-2)*videoScale+24);
+        text("Level " + p.level, 10, (rows-2)*videoScale+36);
+        text("Armor " + p.armor, 10, (rows-2)*videoScale+48);
+        text("Atr " + p.atr, 10, (rows-2)*videoScale+60);
+      } else {
+        text(d.toType(), 10, (rows-2)*videoScale+24);
+        text("Level " + ((Hostile)d).lvl, 10, (rows-2)*videoScale+36);
+      }
+    }
+  }
+  public void tooltip2(int i) {
+    String show = "";
+    if (i==0) {
+      Item mainWeap = p.inventory[Item.HAND_L];
+      if (mainWeap != null) {
+        fill(0, 0, 0, 191);
+        rect(5, (rows-2)*videoScale, 100, 60, 6);
+        fill(255, 255, 255);
+        textSize(12);
+        textAlign(LEFT);
+        text(mainWeap.name, 10, (rows-2)*videoScale+12);
+        text("Damage: " + Integer.toString(mainWeap.dmg), 10, (rows-2)*videoScale+24);
+      }
+    } else if (i==1) {
+      Item armor = p.inventory[Item.CHEST];
+      if (armor != null) {
+        fill(0, 0, 0, 191);
+        rect(5, (rows-2)*videoScale, 100, 60, 6);
+        fill(255, 255, 255);
+        textSize(12);
+        textAlign(LEFT);
+        text(armor.name, 10, (rows-2)*videoScale+12);
+        text("Armor: " + Integer.toString(armor.def), 10, (rows-2)*videoScale+24);
+        text("Attribute: " + Integer.toString(armor.atr), 10, (rows-2)*videoScale+36);
+      }
+    } else if (i==3) {
+      Item shield = p.inventory[Item.HAND_R];
+      if (shield != null) {
+        fill(0, 0, 0, 191);
+        rect(5, (rows-2)*videoScale, 100, 60, 6);
+        fill(255, 255, 255);
+        textSize(12);
+        textAlign(LEFT);
+        text(shield.name, 10, (rows-2)*videoScale+12);
+        text("Armor: " + Integer.toString(shield.def), 10, (rows-2)*videoScale+24);
+        text("Attribute: " + Integer.toString(shield.atr), 10, (rows-2)*videoScale+36);
+      }
+    }
   }
 }
 

@@ -9,11 +9,14 @@ class Item extends Dynamic {
   int dmg;
   int def;
   int slot;
+  int atr;
 
-  public Item(String name, int x, int y, int tile, int slot, int dmg) {
-    super(name, x, y, tile);
+  public Item(String name, int x, int y, int tile, int slot, int dmg, int def, int atr) {
+    super(name, x, y, tile, 99);
     this.slot= slot;
     this.dmg = dmg;
+    this.atr = atr;
+    this.def = def;
     //dynamicsPositionMap.register(this, posX, posY);
   }
 

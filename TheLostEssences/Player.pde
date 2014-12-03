@@ -4,10 +4,11 @@ class Player extends Dynamic {
   final int D_RIGHT = 2;
   final int D_DOWN = 3;
   //public int posX, posY;
-  public int level;
+  int level;
   int charClass;
   int race;
   int xp;
+  int requiredXP;
   int hp;
   int maxHP;
   int dmg;
@@ -21,9 +22,10 @@ class Player extends Dynamic {
 
 
   public Player(String name, int posX, int posY, int tile, int charClass) {
-    super(name, posX, posY, tile);
+    super(name, posX, posY, tile, 100);
     skills = new Skill[4];
     inventory = new Item[10];
+    requiredXP = 10;
     //inventory[0] = 302; //LEFT
     //inventory[1] = 304; //RIGHT
     //inventory[2] = 300; //CHEST 
@@ -108,7 +110,11 @@ class Player extends Dynamic {
   }
 
   public void attack(int dmg) {
-    hp = hp - (abs(dmg-armor));
+    int trueDamage = dmg-armor;
+    if (trueDamage<=0) {
+     trueDamage = 0; 
+    }
+    hp = hp - trueDamage;
     if (hp <0) {
       //p = null;
     }
@@ -134,16 +140,19 @@ class Player extends Dynamic {
 
   public void setUpWarrior() {
     // starting base 10 hp, 4str, 4armor
-
-
-      charClass = 0;
+    charClass = 0;
     level = 1;
-    armor = 2;
-    atr = 4;
-    hp = maxHP = 12 + atr;
-    this.equip(new Item("Sword", -10, - 10, 302, Item.HAND_L, 4));
+    armor = 0;
+    atr = 0;
+    hp = maxHP = 16 + atr;
+    this.equip(new Item("Short Sword", -10, - 10, 302, Item.HAND_L, 4, 0, 0));
+    this.equip(new Item("Round Shield", -10, - 10, 304, Item.HAND_R, 0, 1, 1));
+    this.equip(new Item("Leather Armor", -10, - 10, 300, Item.CHEST, 0, 1, 1));
+    this.equip(new Item("Boots", -10, - 10, 303, Item.FEET, 0,0,0));
+    this.equip(new Item("Boots", -10, - 10, 301, Item.LEGS, 0,0,0));
     skills[0] = new WeaponSwing(451);
     skills[1] = new Charge(452);
+    
   }
 
   public void setOrc() {
@@ -151,10 +160,24 @@ class Player extends Dynamic {
   }
   public void giveXP(int i) {
     xp += i;
+    if (xp == requiredXP) {
+      levelUP();
+    }
+  }
+  
+  private void levelUP() {
+    atr+=4;
+    maxHP+=2;
+    level+=1;
+    xp=0;
+    requiredXP *= 2;
   }
 
   public void equip(Item item) {
     inventory[item.slot] = item;
+    atr += item.atr;
+    armor += item.def;
+    dmg += item.dmg;
   }
 }
 

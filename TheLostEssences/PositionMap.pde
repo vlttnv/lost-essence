@@ -32,9 +32,30 @@ class PositionMap {
         if (map[j][i] != null) {
           Dynamic d = map[j][i];
           image(loadedTiles.get(d.getTileNumber()), x, y);
-          textSize(12);
-          textAlign(CENTER);
-          text(d.getName(), d.getX()*videoScale + 16, d.getY()*videoScale);
+          //          textSize(12);
+          //          textAlign(CENTER);
+          //          text(d.getName(), d.getX()*videoScale + 16, d.getY()*videoScale);
+          if (d.type==100) {
+            fill(250, 33, 33);
+            rect(d.getX()*videoScale, d.getY()*videoScale-2, 28, 2);
+            float php = p.hp;
+            float pmaxhp = p.maxHP;
+            float percentage = (php/pmaxhp);
+            float val = 28f*percentage;
+
+            fill(120, 180, 10);
+            rect(d.getX()*videoScale, d.getY()*videoScale-2, val, 2);
+          } else if (d.type >=0 && d.type<100) {
+            fill(250, 33, 33);
+            rect(d.getX()*videoScale, d.getY()*videoScale-2, 28, 2);
+            float php = ((Hostile)d).hp;
+            float pmaxhp = ((Hostile)d).maxHP;
+            float percentage = (php/pmaxhp);
+            float val = 28f*percentage;
+
+            fill(120, 180, 10);
+            rect(d.getX()*videoScale, d.getY()*videoScale-2, val, 2);
+          }
         }
       }
     }
@@ -78,7 +99,28 @@ class PositionMap {
               image(loadedTiles.get(d.getTileNumber()), x, y);
               textSize(12);
               textAlign(CENTER);
-              text(d.getName(), d.getX()*videoScale + 16, d.getY()*videoScale);
+              //text(d.getName(), d.getX()*videoScale + 16, d.getY()*videoScale);
+              if (d.type==100) {
+                fill(250, 33, 33);
+                rect(d.getX()*videoScale, d.getY()*videoScale-2, 28, 2);
+                float php = p.hp;
+                float pmaxhp = p.maxHP;
+                float percentage = (php/pmaxhp);
+                float val = 28f*percentage;
+
+                fill(120, 180, 10);
+                rect(d.getX()*videoScale, d.getY()*videoScale-2, val, 2);
+              } else if (d.type >=0 && d.type<100) {
+                fill(250, 33, 33);
+                rect(d.getX()*videoScale, d.getY()*videoScale-2, 28, 2);
+                float php = ((Hostile)d).hp;
+                float pmaxhp = ((Hostile)d).maxHP;
+                float percentage = (php/pmaxhp);
+                float val = 28f*percentage;
+
+                fill(120, 180, 10);
+                rect(d.getX()*videoScale, d.getY()*videoScale-2, val, 2);
+              }
             }
           }
         }

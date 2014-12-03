@@ -14,7 +14,7 @@ class Entrance extends Dynamic {
   int newY, 
   String map, 
   int direction) {
-    super(name, x, y, tile);
+    super(name, x, y, tile, -1);
     dynamicsPositionMap.register(this, posX, posY);
     this.newX = newX;
     this.newY = newY;
@@ -24,6 +24,7 @@ class Entrance extends Dynamic {
   }
 
   public void click() {
+    hosts.clear();
     if (map.equals("random_dungeon")) {
 
       if (direction == D_UP) {
@@ -46,7 +47,7 @@ class Entrance extends Dynamic {
         p.posX = newX;
         p.posY = newY;
 
-        new Entrance("Exit", p.posX, p.posY+1, 150, 11, 12, terMapName, D_UP);
+        new Entrance("Exit", p.posX, p.posY+1, 152, 11, 12, terMapName, D_UP);
         //new Entrance("Entrance", p.posX,p.posY+2, 150, 11, 12, "random_dungeon", D_DOWN);
 
         // Teleport player
@@ -68,7 +69,14 @@ class Entrance extends Dynamic {
 
         // New entrances
         new Entrance("Exit", p.posX, p.posY+1, 150, 11, 12, terMapName, D_UP);
-        new Entrance("Entrance", (int)random(0, cols-1), (int)random(0, rows-1), 150, 11, 12, "random_dungeon", D_DOWN);
+        int ran_x = (int)random(0, cols-1);
+        int ran_y = (int)random(0, rows-1);
+        while (!terrainMap.isStepable (ran_x, ran_y)) {
+          ran_x = (int)random(0, cols-1);
+          ran_y = (int)random(0, rows-1);
+        }
+        new Entrance("Entrance", ran_x, ran_y, 153, 11, 12, "random_dungeon", D_DOWN);
+       
 
         dynamicsPositionMap.register(p, newX, newY);
 
@@ -94,12 +102,36 @@ class Entrance extends Dynamic {
     }
   }
 
+
   public void generateNPC() {
-    for (int i=0; i<15; i++) {
+    int amount = (int)Math.round(random(5, 15));
+    for (int i=0; i<amount; i++) {
       // Generate a bunch or normal monsters
       // generate 1-2 bosses
-      
-      new Hostile("",(int)random(0, cols-1), (int)random(0, rows-1), 0);
+      int t = (int)Math.round(random(2));
+      int ran_x = (int)random(0, cols-1);
+      int ran_y = (int)random(0, rows-1);
+      while (!terrainMap.isStepable (ran_x, ran_y)) {
+        ran_x = (int)random(0, cols-1);
+        ran_y = (int)random(0, rows-1);
+      }
+      if (t == Hostile.UNDEAD) {
+        new Hostile("", ran_x, ran_y, Hostile.UNDEAD);
+      } else if (t == Hostile.DEMON) {
+        new Hostile("", ran_x, ran_y, Hostile.DEMON);
+      } else if (t == Hostile.HUMANOID) {
+        new Hostile("", ran_x, ran_y, Hostile.HUMANOID);
+      }
+    }
+    int spawnUnique = (int)Math.round(random(100));
+    int ran_x = (int)random(0, cols-1);
+    int ran_y = (int)random(0, rows-1);
+    while (!terrainMap.isStepable (ran_x, ran_y)) {
+      ran_x = (int)random(0, cols-1);
+      ran_y = (int)random(0, rows-1);
+    }
+    if (spawnUnique >=90) {
+      new Hostile("", ran_x, ran_y, Hostile.UNIQUE);
     }
   }
 

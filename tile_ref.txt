@@ -17,6 +17,12 @@
 101	- base orc
 102	- base elf
 110	- iron troll
+111	- skeleton bat
+114	- soul eater
+117	- gnoll
+120	- Asmodeus
+121	- Skeleton king
+122	- Hellion
 131	- stone wall
 132	- stona wall big
 133	- stone wall vines
@@ -43,3 +49,7 @@
 455	- 2
 456	- 3
 457	- 4
+458	- main weap
+459	- armor
+460	- helm
+461	- shield

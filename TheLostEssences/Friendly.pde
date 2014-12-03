@@ -5,7 +5,7 @@ class Friendly extends NPC {
   int y, 
   int tile
     ) {
-    super(name, x, y, tile);
+    super(name, x, y, tile, 10);
   }
 
   void click() {

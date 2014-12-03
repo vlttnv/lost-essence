@@ -7,7 +7,7 @@ class Prop extends Dynamic {
   int x, 
   int y, 
   int tile) {
-    super("", x, y, tile);
+    super("", x, y, tile, -1);
     dynamicsPositionMap.register(this, posX, posY);
   }
   
