@@ -40,12 +40,12 @@ class UI {
   }
 
   public void drawMainUI() {
-    textSize(22);
-    textAlign(LEFT);
-    text(p.name + " the " + p.getCharClass(), 10, 30); 
-    text("HP: " + p.hp, 10, 60);
-    text("XP: " + p.xp, 10, 90);
-    text("Level: " + p.level, 10, 120);
+//    textSize(22);
+//    textAlign(LEFT);
+//    text(p.name + " the " + p.getCharClass(), 10, 30); 
+//    text("HP: " + p.hp, 10, 60);
+//    text("XP: " + p.xp, 10, 90);
+//    text("Level: " + p.level, 10, 120);
     for (int i=0; i<bottomBar.length; i++) {
       if (i<p.skills.length) {
         image(loadedTiles.get(453), i*videoScale, rows*videoScale);
@@ -99,19 +99,25 @@ class UI {
   }
 
   public void tooltip(Dynamic d) {
-    if (d.type >=0 && d.type <=100) {
+    if (d.type >=0 && d.type <=102) {
       fill(0, 0, 0, 191);
       rect(5, (rows-2)*videoScale, 100, 60, 6);
       fill(255, 255, 255);
       textSize(12);
       textAlign(LEFT);
       text(d.name, 10, (rows-2)*videoScale+12);
-      
+
       if (d.type == 100) {
         text("Damage " + p.dmg, 10, (rows-2)*videoScale+24);
         text("Level " + p.level, 10, (rows-2)*videoScale+36);
         text("Armor " + p.armor, 10, (rows-2)*videoScale+48);
         text("Atr " + p.atr, 10, (rows-2)*videoScale+60);
+      } else if (d.type == 101) {
+        text("Damage " + ((Item)d).dmg, 10, (rows-2)*videoScale+24);
+        text("Armor " + ((Item)d).def, 10, (rows-2)*videoScale+36);
+        text("Atr " + ((Item)d).atr, 10, (rows-2)*videoScale+48);
+      } else if (d.type == 102) {
+         //text("Damage " + ((Entrance)d).name, 10, (rows-2)*videoScale+24);
       } else {
         text(d.toType(), 10, (rows-2)*videoScale+24);
         text("Level " + ((Hostile)d).lvl, 10, (rows-2)*videoScale+36);

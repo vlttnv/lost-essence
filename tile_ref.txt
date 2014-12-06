@@ -13,6 +13,8 @@
 31	- tile
 40	- brick
 41	- dungeon floor
+51	- lava floor
+52	- ice floor
 100	- base human
 101	- base orc
 102	- base elf
@@ -27,11 +29,20 @@
 132	- stona wall big
 133	- stone wall vines
 141	- brick wall
+142	- *
+143	- BIRKS
+144	- *
+145	- volcanic wall
+146	- ice wall
+147	- sand wall
 150 	- portal
 151	- eye of dev
 152	- stairs up
 153	- stairs down
 154	- castle entrance
+155	- entrance
+156	- closed door
+157	- sewer
 160	- water
 161	- water buble
 300	- vest
@@ -40,7 +51,14 @@
 303	- boots 1
 304	- simple shield
 305	- blessed blade
+306	- hat
 400	- torch
+401	- chest
+402	- altar
+403	- torch 2
+404	- torch 3
+405	- banner
+406	- fountain
 450	- slot
 451	- swing
 452	- charge

@@ -48,14 +48,38 @@ class Hostile extends NPC {
   private void kill() {
     //do stuff
     dynamicsPositionMap.deregister(posX, posY);
-    dropLoot();
     hosts.remove(this);
     p.giveXP(xpToGive);
+    dropLoot();
   }
 
   private void dropLoot() {
-    //drops.add(new Item("Sword", posX, posY, 305, Item.HAND_L, 4));
-    println("dopped some lewt");
+    Item im = null;
+    if (type == UNIQUE) {
+    } else {
+      int roll = (int)Math.round(random(100));
+
+      if (roll>=0) {
+        // head, left, right, chest
+        if (p.charClass == 0) {
+          int slot = (int)Math.round(random(100));
+          if (slot < 25) {
+            im = new Item("Sword", posX, posY, 305, Item.HAND_L, 4, 0, 0);
+          } else if (slot < 50 && slot >=25) {
+            im = new Item("Shield", posX, posY, 304, Item.HAND_R, 0, 4, 1);
+          } else if (slot < 75 && slot >=50) {
+            im = new Item("Armor", posX, posY, 300, Item.CHEST, 0, 3, 3);
+          } else if (slot < 100 && slot >=75) {
+            im = new Item("Helm", posX, posY, 306, Item.HEAD, 0, 1, 2);
+          }
+        } else {
+        }
+      }
+      if (im != null) {
+        drops.add(im);
+      }
+      println("dopped some lewt");
+    }
   }
 
   private void makeUndead() {
@@ -246,13 +270,11 @@ class Hostile extends NPC {
         }
       } else if (dir <= 75 && dir > 50) {
         if (terrainMap.isStepable(posX-1, posY)) {
-          direction_image = 0;
           dynamicsPositionMap.update(posX, posY, posX-1, posY);
           posX -= 1;
         }
       } else if (dir <= 100 && dir >75) {
         if (terrainMap.isStepable(posX+1, posY)) {
-          direction_image = 1;
           dynamicsPositionMap.update(posX, posY, posX+1, posY);
           posX += 1;
         }

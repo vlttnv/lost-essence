@@ -2,7 +2,6 @@ abstract class Dynamic {
   String name;
   int posX, posY;  
   int tile;
-  int direction_image;
   int type;
 
   public Dynamic(String name, int x, int y, int tile, int type) {

@@ -17,9 +17,6 @@ ArrayList<Map> mapStack;
  Player and NPCs
  -------------------*/
 Player p;
-Hostile h;
-Friendly f;
-Entrance entr;
 ArrayList<Hostile> hosts = new ArrayList<Hostile>();
 ArrayList<Item> drops = new ArrayList<Item>();
 int moveClock = 0;
@@ -69,7 +66,7 @@ void setup() {
 
   p = new Player("Bob", 5, 5, 100, 0);
   //h = new Hostile("Zombie", 10, 10, 100, 5, 10, 1, 1, 100);
-  entr = new Entrance("Portal", 27, 9, 150, 11, 12, "random_dungeon", Entrance.D_DOWN);
+  //entr = new Entrance("Portal", 27, 9, 150, 11, 12, "random_dungeon", Entrance.D_DOWN);
   //f = new Friendly("mob2", 20, 20, 100, 100);
 }
 

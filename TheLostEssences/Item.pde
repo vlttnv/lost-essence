@@ -12,22 +12,24 @@ class Item extends Dynamic {
   int atr;
 
   public Item(String name, int x, int y, int tile, int slot, int dmg, int def, int atr) {
-    super(name, x, y, tile, 99);
+    super(name, x, y, tile, 101);
     this.slot= slot;
     this.dmg = dmg;
     this.atr = atr;
     this.def = def;
-    //dynamicsPositionMap.register(this, posX, posY);
+    if (x >0 || y>0) {
+      dynamicsPositionMap.register(this, posX, posY);
+    }
+    
   }
 
   public void click() {
     dynamicsPositionMap.deregister(posX, posY);
-    //p.equip(tile,slot);
+    p.equip(this);
     drops.remove(this);
   }
-  
+
   public void attack(int i) {
-    
   }
 }
 

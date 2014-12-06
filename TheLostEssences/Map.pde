@@ -15,6 +15,9 @@ class Map {
   String westMap;
   String northMap;
   String southMap;
+  
+  int randWall;
+  int randFloor;
 
   public Map(int type) {
     map = new int[rows][cols];
@@ -58,7 +61,7 @@ class Map {
         for (int i=0; i<entrances.length; i++) {
 
           String[] data = split(entrances[i], ' ');
-          new Entrance("", Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4]), data[5], 0);
+          new Entrance("", Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4]), data[5], 1);
         }
       }
 
@@ -250,6 +253,22 @@ class Map {
   }
 
   public void generateMap() {
+    int dunType = (int)Math.round(random(3));
+    
+    if (dunType == 3) {
+      randWall = 141;
+      randFloor = 41;
+    } else if (dunType == 2) {
+      randWall = 145;
+      randFloor = 30;
+    } else if (dunType == 1) {
+      randWall = 146;
+      randFloor = 52;
+    } else if (dunType == 0) {
+      randWall = 147;
+      randFloor = 10;
+    }
+    
     for (int i = 0; i < cols; i++) {
       // Begin loop for rows
       for (int j = 0; j < rows; j++) {
@@ -258,11 +277,11 @@ class Map {
         int y = j*videoScale;
 
         if (j == 0 || j == rows-1) {
-          map[j][i] = 141;
+          map[j][i] = randWall;
         } else if (i ==0 || i == cols-1) {
-          map[j][i] = 141;
+          map[j][i] = randWall;
         } else {
-          map[j][i] = 41;
+          map[j][i] = randFloor;
         }
       }
     }
@@ -283,9 +302,9 @@ class Map {
       int door = (int)random(y_0+1, y_max-1);
       for (int i=y_0; i<=y_max; i++) {
         if (i==door) {
-          map[i][(x_max-x_0)/2 + x_0]=41;
+          map[i][(x_max-x_0)/2 + x_0]=randFloor;
         } else {
-          map[i][(x_max-x_0)/2 + x_0]=141;
+          map[i][(x_max-x_0)/2 + x_0]=randWall;
         }
       }
       goDeeper(x_0, x_max/2, y_0, y_max, level+1);
@@ -299,9 +318,9 @@ class Map {
       int door = (int)random(x_0+1, x_max-1);
       for (int i=x_0; i<=x_max; i++) {
         if (i==door) {
-          map[(y_max-y_0)/2 + y_0][i]=41;
+          map[(y_max-y_0)/2 + y_0][i]=randFloor;
         } else {
-          map[(y_max-y_0)/2 + y_0][i]=141;
+          map[(y_max-y_0)/2 + y_0][i]=randWall;
         }
       }
       goDeeper(x_0, x_max, y_0, y_max/2, level+1);

@@ -14,6 +14,7 @@ class Player extends Dynamic {
   int dmg;
   int armor;
   int atr;
+  int dunLevel = 0;
 
   Skill[] skills;
   Item[] inventory;
@@ -36,7 +37,6 @@ class Player extends Dynamic {
     }
     dynamicsPositionMap.register(this, posX, posY);
     //dynamicsRenderMap.set(posX, posY, 100);
-    direction_image = 0;
   }
 
 
@@ -79,16 +79,34 @@ class Player extends Dynamic {
       break;
     case D_LEFT: 
       if (terrainMap.isStepable(posX-1, posY)) {
-        direction_image = 0;
         dynamicsPositionMap.update(posX, posY, posX-1, posY);
         posX -= 1;
+      } else {
+        String dir = terrainMap.getMapDirection(Map.WEST);
+        if (dir != null) {
+          if (!dir.equals("0") && posX == 0) {
+            posX = cols-1;
+            dynamicsPositionMap =  new PositionMap();
+            dynamicsPositionMap.register(p, posX, posY);
+            terrainMap = new Map(dir);
+          }
+        }
       }
       break;
     case D_RIGHT:  
       if (terrainMap.isStepable(posX+1, posY)) {
-        direction_image = 1;
         dynamicsPositionMap.update(posX, posY, posX+1, posY);
         posX += 1;
+      } else {
+        String dir = terrainMap.getMapDirection(Map.EAST);
+        if (dir != null) {
+          if (!dir.equals("0") && posX == cols-1) {
+            posX = 0;
+            dynamicsPositionMap =  new PositionMap();
+            dynamicsPositionMap.register(p, posX, posY);
+            terrainMap = new Map(dir);
+          }
+        }
       }
       break;
     }
@@ -112,7 +130,7 @@ class Player extends Dynamic {
   public void attack(int dmg) {
     int trueDamage = dmg-armor;
     if (trueDamage<=0) {
-     trueDamage = 0; 
+      trueDamage = 0;
     }
     hp = hp - trueDamage;
     if (hp <0) {
@@ -148,11 +166,10 @@ class Player extends Dynamic {
     this.equip(new Item("Short Sword", -10, - 10, 302, Item.HAND_L, 4, 0, 0));
     this.equip(new Item("Round Shield", -10, - 10, 304, Item.HAND_R, 0, 1, 1));
     this.equip(new Item("Leather Armor", -10, - 10, 300, Item.CHEST, 0, 1, 1));
-    this.equip(new Item("Boots", -10, - 10, 303, Item.FEET, 0,0,0));
-    this.equip(new Item("Boots", -10, - 10, 301, Item.LEGS, 0,0,0));
+    this.equip(new Item("Boots", -10, - 10, 303, Item.FEET, 0, 0, 0));
+    this.equip(new Item("Boots", -10, - 10, 301, Item.LEGS, 0, 0, 0));
     skills[0] = new WeaponSwing(451);
     skills[1] = new Charge(452);
-    
   }
 
   public void setOrc() {
@@ -164,7 +181,7 @@ class Player extends Dynamic {
       levelUP();
     }
   }
-  
+
   private void levelUP() {
     atr+=4;
     maxHP+=2;
@@ -174,10 +191,24 @@ class Player extends Dynamic {
   }
 
   public void equip(Item item) {
-    inventory[item.slot] = item;
-    atr += item.atr;
-    armor += item.def;
-    dmg += item.dmg;
+    if (inventory[item.slot] != null) {
+      atr -= inventory[item.slot].atr;
+      armor -= inventory[item.slot].def;
+      dmg -= inventory[item.slot].dmg;
+
+      inventory[item.slot] = item;
+      atr += item.atr;
+      armor += item.def;
+      dmg += item.dmg;
+
+      //TODO update stats
+    } else {
+      inventory[item.slot] = item;
+      atr += item.atr;
+      armor += item.def;
+      dmg += item.dmg;
+      //TODO update stats
+    }
   }
 }
 
