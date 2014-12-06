@@ -149,9 +149,25 @@ class Entrance extends Dynamic {
       //      new Hostile("Z" +i, (int)random(0, cols-1), (int)random(0, rows-1), 10, 5, 10, 1, 1, 110);
       //    }
       p.teleportPlayer(newX, newY);
+      generateFriends();
     }
   }
 
+  public void generateFriends() {
+    int amount = (int)Math.round(random(5, 15));
+    for (int i=0; i<amount; i++) {
+      // Generate a bunch or normal monsters
+      // generate 1-2 bosses
+      int t = (int)Math.round(random(2));
+      int ran_x = (int)random(0, cols-1);
+      int ran_y = (int)random(0, rows-1);
+      while (!terrainMap.isStepable (ran_x, ran_y)) {
+        ran_x = (int)random(0, cols-1);
+        ran_y = (int)random(0, rows-1);
+      }
+      new Friendly("", ran_x, ran_y, 0);
+    }
+  }
 
   public void generateNPC(boolean finalLevel) {
     int amount = (int)Math.round(random(5, 15));
@@ -191,7 +207,7 @@ class Entrance extends Dynamic {
         ran_x = (int)random(0, cols-1);
         ran_y = (int)random(0, rows-1);
       }
-      new Chest(ran_x, ran_y, 401);
+      new Chest(ran_x, ran_y, 401, false);
     }
   }
 

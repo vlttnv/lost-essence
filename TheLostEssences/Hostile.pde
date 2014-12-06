@@ -149,7 +149,7 @@ class Hostile extends NPC {
   }
 
   private void makeUnique() {
-    int which = (int)Math.round(random(120, 122));
+    int which = (int)Math.round(random(120, 123));
     if (which == 120) {
       xpToGive = lvl * 2;
       name = "Azmodeus";
@@ -213,6 +213,34 @@ class Hostile extends NPC {
       for (int i=lvl; i>=0; i-=2) {
         dmg = dmg + i;
       }
+    } else if (which == 123) {
+      name = "The Lost Prince";
+      tile = 123;
+      xpToGive = lvl * 2;
+
+      lvl = p.level;
+      hp = maxHP = 50;
+      dmg = 22;
+      armor = 10;
+
+      for (int i=lvl; i>=0; i--) {
+        hp = hp + i*10;
+      }
+
+      hp *= lvl*0.5;
+      maxHP = hp;
+      armor += armor*lvl;
+      dmg += p.hp/10;
+      for (int i=lvl; i>=0; i-=2) {
+        dmg = dmg + i;
+      }
+      int ran_x = (int)random(0, cols-1);
+      int ran_y = (int)random(0, rows-1);
+      while (!terrainMap.isStepable (ran_x, ran_y)) {
+        ran_x = (int)random(0, cols-1);
+        ran_y = (int)random(0, rows-1);
+      }
+      new Chest(ran_x, ran_y, 401,true);
     }
   }
 

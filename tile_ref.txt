@@ -25,6 +25,12 @@
 120	- Asmodeus
 121	- Skeleton king
 122	- Hellion
+123	- Lost Prince
+124
+125
+126	FRIEDNLIES
+127
+128
 131	- stone wall
 132	- stona wall big
 133	- stone wall vines

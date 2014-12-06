@@ -5,6 +5,7 @@ class Item extends Dynamic {
   static public final int HEAD = 3;
   static public final int LEGS = 4;
   static public final int FEET = 5;
+  static public final int ES = 6;
 
   int dmg;
   int def;
@@ -20,13 +21,16 @@ class Item extends Dynamic {
     if (x >0 || y>0) {
       dynamicsPositionMap.register(this, posX, posY);
     }
-    
   }
 
   public void click() {
-    dynamicsPositionMap.deregister(posX, posY);
-    p.equip(this);
-    drops.remove(this);
+    if (slot != ES) {
+      dynamicsPositionMap.deregister(posX, posY);
+      p.equip(this);
+      drops.remove(this);
+    } else {
+      //WIN
+    }
   }
 
   public void attack(int i) {

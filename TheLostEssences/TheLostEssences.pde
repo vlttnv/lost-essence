@@ -18,6 +18,7 @@ ArrayList<Map> mapStack;
  -------------------*/
 Player p;
 ArrayList<Hostile> hosts = new ArrayList<Hostile>();
+ArrayList<Friendly> friends = new ArrayList<Friendly>();
 ArrayList<Item> drops = new ArrayList<Item>();
 int moveClock = 0;
 
@@ -78,10 +79,10 @@ void draw() {
     //println(frameRate);
     background(0, 0, 0);
     if (terrainMap.isDungeon()) {
-      terrainMap.drawMap();
-      dynamicsPositionMap.drawMap();
-      //terrainMap.drawOutdoors();
-      //dynamicsPositionMap.drawOutdoors();
+      //terrainMap.drawMap();
+      //dynamicsPositionMap.drawMap();
+      terrainMap.drawOutdoors();
+      dynamicsPositionMap.drawOutdoors();
     } else {
       terrainMap.drawOutdoors();
       dynamicsPositionMap.drawOutdoors();
@@ -92,6 +93,9 @@ void draw() {
     } else {
       for (int i=0; i<hosts.size (); i++) {
         hosts.get(i).moveRandom();
+      }
+      for (int i=0; i<friends.size (); i++) {
+        friends.get(i).moveRandom();
       }
       moveClock=0;
     }
