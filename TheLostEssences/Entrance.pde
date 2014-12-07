@@ -20,7 +20,6 @@ class Entrance extends Dynamic {
     this.newY = newY;
     this.map = map;
     this.direction = direction;
-    println("creating portal with " + map);
   }
 
   public void click() {
@@ -68,7 +67,6 @@ class Entrance extends Dynamic {
 
         if (p.dunLevel == rollLevel) {
           finalLevel = true;
-          println("FINAAAAAL");
         }
         String terMapName = terrainMap.getMapName();
         if (terMapName == null) {
@@ -170,7 +168,7 @@ class Entrance extends Dynamic {
   }
 
   public void generateNPC(boolean finalLevel) {
-    int amount = (int)Math.round(random(5, 15));
+    int amount = (int)Math.round(random(5, 35));
     for (int i=0; i<amount; i++) {
       // Generate a bunch or normal monsters
       // generate 1-2 bosses
@@ -212,7 +210,7 @@ class Entrance extends Dynamic {
   }
 
   public void attack(int dmg) {
-    println("You cannot attack me");
+
   }
 }
 

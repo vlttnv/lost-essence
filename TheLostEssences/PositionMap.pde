@@ -31,6 +31,9 @@ class PositionMap {
         // For every column and row, a rectangle is drawn at an (x,y) location scaled and sized by videoScale.
         if (map[j][i] != null) {
           Dynamic d = map[j][i];
+          if (d.type==100 && timer3 !=0) {
+            image(loadedTiles.get(398), x, y);
+          }
           image(loadedTiles.get(d.getTileNumber()), x, y);
           //          textSize(12);
           //          textAlign(CENTER);
@@ -95,6 +98,9 @@ class PositionMap {
 
 
             if (dr) {
+              if (d.type==100 && timer3 !=0) {
+                image(loadedTiles.get(398), x, y);
+              }
 
               image(loadedTiles.get(d.getTileNumber()), x, y);
               textSize(12);

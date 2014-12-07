@@ -23,18 +23,30 @@ class Chest extends Dynamic {
       if (p.charClass == 0) {
         int slot = (int)Math.round(random(100));
         if (slot < 25) {
-          im = new Item("Sword", posX, posY, 305, Item.HAND_L, 4, 0, 0);
+          int model = (int)Math.round(random(316, 318));
+          int dmg = (int)Math.round(random(4, 8));
+          im = new Item("Sword", posX, posY, model, Item.HAND_L, dmg*p.level, 0, 0);
         } else if (slot < 50 && slot >=25) {
-          im = new Item("Shield", posX, posY, 304, Item.HAND_R, 0, 4, 1);
+          int model = (int)Math.round(random(319, 321));
+          int def = (int)Math.round(random(4, 10));
+          int atr = (int)Math.round(random(4, 10));
+          im = new Item("Shield", posX, posY, model, Item.HAND_R, 0, def*p.level, atr);
         } else if (slot < 75 && slot >=50) {
-          im = new Item("Armor", posX, posY, 300, Item.CHEST, 0, 3, 3);
+          int model = (int)Math.round(random(313, 315));
+          int def = (int)Math.round(random(4, 10));
+          int atr = (int)Math.round(random(4, 10));
+          im = new Item("Armor", posX, posY, model, Item.CHEST, 0, def*p.level, atr*p.level);
         } else if (slot < 100 && slot >=75) {
-          im = new Item("Helm", posX, posY, 306, Item.HEAD, 0, 1, 2);
+          int model = (int)Math.round(random(310, 312));
+          int def = (int)Math.round(random(1, 4));
+          int atr = (int)Math.round(random(1, 4));
+          im = new Item("Helm", posX, posY, model, Item.HEAD, 0, def*p.level, atr*p.level);
         }
       }
     } else {
       dynamicsPositionMap.deregister(posX, posY);
-      Item im = new Item("Lost Essence", posX, posY, 399, Item.ES, 9000, 9000, 9000);;
+      Item im = new Item("Last Essence", posX, posY, 399, Item.ES, 9000, 9000, 9000);
+      ;
     }
   }
 

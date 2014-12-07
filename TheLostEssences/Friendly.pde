@@ -13,7 +13,6 @@ class Friendly extends NPC {
   }
 
   void click() {
-    println("I am friendly");
   }
 
   void attack(int dmg) {

@@ -1,3 +1,7 @@
+/**
+ Represents all "dynamic" entities in the game. Those include
+ all the objects and NPC that the player can interact with and the player himeslf.
+ */
 abstract class Dynamic {
   String name;
   int posX, posY;  
@@ -15,27 +19,23 @@ abstract class Dynamic {
   abstract void click();
   abstract void attack(int dmg);
 
-  String getName() {
-    return name;
-  }
+//  String getName() {
+//    return name;
+//  }
 
   int getTileNumber() {
     return tile;
   }
 
-  public String getDName() { 
-    return name;
-  }
+//  public String getDName() { 
+//    return name;
+//  }
   public int getX() {
     return posX;
   }
   public int getY() {
     return posY;
   }
-  public static final int UNDEAD = 0;
-  public static final int UNIQUE = 1;
-  public static final int DEMON = 2;
-  public static final int HUMANOID = 3;
 
   public String toType() {
     if (type == Hostile.UNDEAD) {

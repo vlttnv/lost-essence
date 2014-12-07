@@ -9,9 +9,17 @@ class WeaponSwing extends Skill {
   public void use(Dynamic d) {
     if (d != null) {
       if (abs(mouseX/videoScale-p.posX) <= range && abs(mouseY/videoScale-p.posY) <= range) {
-        println(dmg);
         if (d.type != 100) {
           d.attack(dmg);
+          int healChance = (int)Math.round(random(100));
+          if (healChance >= 60) {
+            int gain = (int)Math.round(p.hp*0.2);
+            if (p.hp+gain <=p.maxHP) {
+              p.hp += gain;
+            } else {
+              p.hp = p.maxHP;
+            }
+          }
         }
       }
     }

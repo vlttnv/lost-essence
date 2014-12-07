@@ -15,7 +15,7 @@ class Map {
   String westMap;
   String northMap;
   String southMap;
-  
+
   int randWall;
   int randFloor;
 
@@ -106,57 +106,6 @@ class Map {
 
 
   public void drawMap() {
-    // Begin loop for columns
-    //    for (int i = 0; i < cols; i++) {
-    //      // Begin loop for rows
-    //      for (int j = 0; j < rows; j++) {
-    //        // Scaling up to draw a rectangle at (x,y)
-    //        int x = i*videoScale;
-    //        int y = j*videoScale;
-    //
-    //        // For every column and row, a tiles is drawn at an (x,y) location scaled and sized by videoScale.
-    //        if (map[j][i] != -1) {
-    //          if (abs(j - p.posY) < 5 && abs(i - p.posX) < 5) {
-    //
-    //
-    //            boolean dr = true;
-    //            PVector end = new PVector(i, j);
-    //            PVector start = new PVector(p.posX, p.posY);
-    //            for (float z=0.0; z<=1; z=z+0.1) {
-    //              PVector middle = PVector.lerp(start, end, z);
-    //              if (map[(int)middle.y][(int)middle.x] <100 && dr) {
-    //                image(loadedTiles.get(map[j][i]), x, y);
-    //              } else if (map[(int)middle.y][(int)middle.x] > 100 && dr) {
-    //                //image(loadedTiles.get(map[j][i]), x, y);
-    //                dr = false;
-    //              }
-    //            }
-    //          }
-    //        }
-    //      }
-    //    }
-
-    //    for (int i=0; i<=7; i++) {
-    //      boolean dr = true;
-    //      PVector end = new PVector((p.posX*videoScale-3*videoScale)+i*videoScale, p.posY*videoScale-4*videoScale);
-    //      PVector start = new PVector(p.posX*videoScale, p.posY*videoScale);
-    //      
-    //      PVector middle;
-    //      for (float z=0.0; z<=1; z=z+0.1) {
-    //        middle = PVector.lerp(start, end, z);
-    //        if (((int)middle.y>=0 && (int)middle.y<rows*videoScale) && ((int)middle.x>=0 && (int)middle.x<cols*videoScale)) {
-    //          
-    //          if (map[(int)middle.y/ videoScale][(int)middle.x/ videoScale] <100 && dr) {
-    //            println("test");
-    //            image(loadedTiles.get(map[(int)middle.y/ videoScale][(int)middle.x/ videoScale]), (int)middle.x, (int)middle.y);
-    //          } else if (map[(int)middle.y/ videoScale][(int)middle.x/ videoScale] > 100 && dr) {
-    //            image(loadedTiles.get(map[(int)middle.y/ videoScale][(int)middle.x/ videoScale]), (int)middle.x, (int)middle.y);
-    //            dr = false;
-    //          }
-    //        }
-    //      }
-    //      //line(((p.posX-3)+i) * videoScale, (p.posY-4)* videoScale, p.posX* videoScale, p.posY* videoScale);
-    //    }
 
     for (int i=0; i<=7; i++) {
       boolean dr = true;
@@ -254,7 +203,7 @@ class Map {
 
   public void generateMap() {
     int dunType = (int)Math.round(random(3));
-    
+
     if (dunType == 3) {
       randWall = 141;
       randFloor = 41;
@@ -268,7 +217,7 @@ class Map {
       randWall = 147;
       randFloor = 10;
     }
-    
+
     for (int i = 0; i < cols; i++) {
       // Begin loop for rows
       for (int j = 0; j < rows; j++) {
@@ -299,9 +248,10 @@ class Map {
       //      while (map[y_0][border+1] == 141 || map[y_0][border-1] == 141) {
       //        border = (int)random(x_0, x_max);
       //      }
-      int door = (int)random(y_0+1, y_max-1);
+      int door1 = (int)random(y_0+1, y_max-1);
+      int door2 = (int)random(y_0+1, y_max-1);
       for (int i=y_0; i<=y_max; i++) {
-        if (i==door) {
+        if (i==door1 || i==door2) {
           map[i][(x_max-x_0)/2 + x_0]=randFloor;
         } else {
           map[i][(x_max-x_0)/2 + x_0]=randWall;
@@ -350,6 +300,14 @@ class Map {
 
   public String getMapName() {
     return this.mapName;
+  }
+
+  public boolean inBounds(int x, int y) {
+    if ((x<cols-1 && x>=0) && (y<rows-1 && y>=0)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 

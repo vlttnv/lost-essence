@@ -30,6 +30,8 @@ Tiles loadedTiles;
 UI ui;
 boolean drawCharStats = false;
 boolean mainMenu = true;
+boolean endGame = false;
+boolean foundIt = false;
 PFont font;
 String typing = "";
 String playerName = "";
@@ -38,6 +40,14 @@ String playerName = "";
  Skills
  -------------------*/
 Particle particle;
+int coolDown0 = 0;
+int coolDown1 = 0;
+int coolDown2 = 0;
+int coolDown3 = 0;
+int timer0 = 0;
+int timer1 = 0;
+int timer2 = 0;
+int timer3 = 0;
 
 // Setup call
 void setup() {
@@ -59,59 +69,67 @@ void setup() {
   dynamicsPositionMap =  new PositionMap();
   terrainMap = new Map("starting.map");
 
-
-  //Dynamic test = new Hostile("a", 1, 1, 1, 1, 1, 1, 1, 1);
-  //Dynamic test2 = new Friendly("b", 2, 2, 3);
-  //println(test.getName());
-  //println(test2.getName());
-
+  // PLAYER
   p = new Player("Bob", 5, 5, 100, 0);
-  //h = new Hostile("Zombie", 10, 10, 100, 5, 10, 1, 1, 100);
-  //entr = new Entrance("Portal", 27, 9, 150, 11, 12, "random_dungeon", Entrance.D_DOWN);
-  //f = new Friendly("mob2", 20, 20, 100, 100);
 }
 
 // Draw loop
 void draw() {
   if (mainMenu) {
     ui.drawMainMenu();
-  } else {
-    //println(frameRate);
-    background(0, 0, 0);
-    if (terrainMap.isDungeon()) {
-      //terrainMap.drawMap();
-      //dynamicsPositionMap.drawMap();
-      terrainMap.drawOutdoors();
-      dynamicsPositionMap.drawOutdoors();
+  } else if (endGame) { 
+    if (foundIt) {
+      ui.drawWinMenu();
     } else {
-      terrainMap.drawOutdoors();
-      dynamicsPositionMap.drawOutdoors();
+      ui.drawDieMenu();
     }
+  } else {
 
+    background(0, 0, 0);
+    // Move idle NPCs
     if (moveClock <120) {
       moveClock++;
     } else {
       for (int i=0; i<hosts.size (); i++) {
-        hosts.get(i).moveRandom();
+        if (hosts.size() != 0) {
+          hosts.get(i).moveRandom();
+        }
       }
       for (int i=0; i<friends.size (); i++) {
         friends.get(i).moveRandom();
       }
       moveClock=0;
     }
+    if (terrainMap.isDungeon()) {
+      // Render with "fog of war"
+      terrainMap.drawMap();
+      dynamicsPositionMap.drawMap();
 
-
-    p.drawItems();
-    //p.drawPlayer();
-    if (drawCharStats) {
-      ui.drawCharStats(p);
+      //terrainMap.drawOutdoors();
+      //dynamicsPositionMap.drawOutdoors();
+    } else {
+      terrainMap.drawOutdoors();
+      dynamicsPositionMap.drawOutdoors();
     }
+
+
+
+    // Dynamic player appearance
+    p.drawItems();
+
+    //    if (drawCharStats) {
+    //      ui.drawCharStats(p);
+    //    }
     if (particle != null) {
       particle.integrate();
       PVector position = particle.position;
       image(loadedTiles.get(151), position.x, position.y);
     }
+
+    // Bottom bar
     ui.drawMainUI();
+
+    // Hover on bottom bar
     if ((mouseX >= 4*videoScale && mouseX <4*videoScale+32) && mouseY>rows*videoScale) {
       ui.tooltip2(0);
     } else if ((mouseX >= 5*videoScale && mouseX <5*videoScale+32) && mouseY>rows*videoScale) {
@@ -121,9 +139,46 @@ void draw() {
     } else if ((mouseX >= 7*videoScale && mouseX <7*videoScale+32) && mouseY>rows*videoScale) {
       ui.tooltip2(3);
     }
+
+    // Dynamics Tooltip
     if ((mouseX>=0 && mouseX<WIDTH) && (mouseY>=0 && mouseY<HEIGHT)) {
       if (dynamicsPositionMap.get(mouseX/videoScale, mouseY/videoScale) != null) {
         ui.tooltip(dynamicsPositionMap.get(mouseX/videoScale, mouseY/videoScale));
+      }
+    }
+
+    // Cooldowns
+    if (coolDown2 > 0 && coolDown2 <= 600) {
+
+      coolDown2 += 1;
+      if (coolDown2 == 600) {
+        coolDown2 = 0;
+        p.skills[2].tile = 462;
+      }
+    }
+    if (coolDown1 > 0 && coolDown1 <= 360) {
+
+      coolDown1 += 1;
+      if (coolDown1 == 360) {
+        coolDown1 = 0;
+        p.skills[1].tile = 452;
+      }
+    }
+    if (coolDown3 > 0 && coolDown3 <= 1200) {
+
+      coolDown3 += 1;
+      if (coolDown3 == 1200) {
+        coolDown3 = 0;
+        p.skills[3].tile = 464;
+      }
+    }
+
+    if (timer3 > 0 && timer3 <= 480) {
+
+      timer3 += 1;
+      if (timer3 == 480) {
+        timer3 = 0;
+        p.armor -= 9000;
       }
     }
   }
@@ -131,17 +186,6 @@ void draw() {
 
 void keyPressed() {
   if (mainMenu) {
-    // If the return key is pressed, save the String and clear it
-    if (key == '\n' ) {
-      playerName = typing;
-      mainMenu = false;
-      // A String can be cleared by setting it equal to ""
-      typing = "";
-    } else {
-      // Otherwise, concatenate the String
-      // Each character typed by the user is added to the end of the String variable.
-      typing = typing + key;
-    }
   } else {
 
     if (key == 'a') {
@@ -166,15 +210,27 @@ void keyPressed() {
       Dynamic d = dynamicsPositionMap.get(mouseX/videoScale, mouseY/videoScale);
       s.use(d);
     }
-
-
-
-    if (key == 'z') {
-      if (drawCharStats) {
-        drawCharStats = false;
-      } else {
-        drawCharStats = true;
-      }
+    if (key == '3') {
+      Skill s = p.skills[2];
+      //Dynamic d = dynamicsPositionMap.get(mouseX/videoScale, mouseY/videoScale);
+      s.use(null);
+    }
+    if (key == '4') {
+      Skill s = p.skills[3];
+      //Dynamic d = dynamicsPositionMap.get(mouseX/videoScale, mouseY/videoScale);
+      s.use(null);
+    }
+    if (key == 't') {
+      //Skill s = p.skills[1];
+      //Dynamic d = dynamicsPositionMap.get(mouseX/videoScale, mouseY/videoScale);
+      //s.use(d);
+      mapStack = new ArrayList<Map>();
+      dynamicsPositionMap =  new PositionMap();
+      terrainMap = new Map("starting.map");
+      p.posX = 10;
+      p.posY = 10;
+      dynamicsPositionMap.register(p, 10, 10);
+      p.teleportPlayer(10, 10);
     }
   }
 }
@@ -182,27 +238,60 @@ void keyPressed() {
 void mouseClicked() {
 
   if (mainMenu) {
-    if ((mouseX>25 && mouseX<122) && (mouseY>100 && mouseY<154)) {
+    if ((mouseX>490 && mouseX<790) && (mouseY>510 && mouseY<570)) {
       p.setUpWarrior();
+      mainMenu = false;
     }
     if ((mouseX>28 && mouseX<123) && (mouseY>220 && mouseY<272)) {
       p.setOrc();
-      mainMenu = false;
+    }
+  } else if (endGame) {
+    if (foundIt) {
+      if ((mouseX>540 && mouseX<734) && (mouseY>513 && mouseY<570)) {
+        endGame = false;
+        foundIt = false;
+        mainMenu = true;
+        // Maps
+        mapStack = new ArrayList<Map>();
+        dynamicsPositionMap =  new PositionMap();
+        terrainMap = new Map("starting.map");
+        hosts = new ArrayList<Hostile>();
+
+        // PLAYER
+        p = new Player("Bob", 5, 5, 100, 0);
+      }
+    } else {
+      if ((mouseX>540 && mouseX<734) && (mouseY>513 && mouseY<570)) {
+        endGame = false;
+        foundIt = false;
+        mainMenu = true;
+        // Maps
+        mapStack = new ArrayList<Map>();
+        dynamicsPositionMap =  new PositionMap();
+        terrainMap = new Map("starting.map");
+        hosts = new ArrayList<Hostile>();
+
+        // PLAYER
+        p = new Player("Bob", 5, 5, 100, 0);
+      }
     }
   } else {
-    //p.teleportPlayer(mouseX, mouseY);
-    Dynamic temp = dynamicsPositionMap.get(mouseX / videoScale, mouseY / videoScale);
+    if (mouseY<=rows*videoScale) {
 
-    if (temp != null) {
-      if (abs(mouseX/videoScale-p.posX) <=1 && abs(mouseY/videoScale-p.posY) <= 1) {
-        if (mouseButton == LEFT) {
-          temp.click();
-        } else if (mouseButton == RIGHT) {
-          Skill s = p.skills[0];
-          Dynamic d = dynamicsPositionMap.get(mouseX/videoScale, mouseY/videoScale);
-          s.use(d);
-          //temp.attack(5);
-          //particle = new Particle(p.posX * videoScale, p.posY  * videoScale, (mouseX-p.posX* videoScale), (mouseY - p.posY* videoScale), 0f, 0f) ;
+
+      Dynamic temp = dynamicsPositionMap.get(mouseX / videoScale, mouseY / videoScale);
+
+      if (temp != null) {
+        if (abs(mouseX/videoScale-p.posX) <=1 && abs(mouseY/videoScale-p.posY) <= 1) {
+          if (mouseButton == LEFT) {
+            temp.click();
+          } else if (mouseButton == RIGHT) {
+            Skill s = p.skills[0];
+            Dynamic d = dynamicsPositionMap.get(mouseX/videoScale, mouseY/videoScale);
+            s.use(d);
+            //temp.attack(5);
+            //particle = new Particle(p.posX * videoScale, p.posY  * videoScale, (mouseX-p.posX* videoScale), (mouseY - p.posY* videoScale), 0f, 0f) ;
+          }
         }
       }
     }

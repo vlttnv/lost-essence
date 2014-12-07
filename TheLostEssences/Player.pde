@@ -56,9 +56,11 @@ class Player extends Dynamic {
             dynamicsPositionMap =  new PositionMap();
             dynamicsPositionMap.register(p, posX, posY);
             terrainMap = new Map(dir);
+            generateFriends();
           }
+          
         }
-        generateFriends();
+        
       }
       break;
     case D_DOWN: 
@@ -73,9 +75,11 @@ class Player extends Dynamic {
             dynamicsPositionMap =  new PositionMap();
             dynamicsPositionMap.register(p, posX, posY);
             terrainMap = new Map(dir);
+            generateFriends();
           }
+          
         }
-        generateFriends();
+        
       }
 
       break;
@@ -91,9 +95,9 @@ class Player extends Dynamic {
             dynamicsPositionMap =  new PositionMap();
             dynamicsPositionMap.register(p, posX, posY);
             terrainMap = new Map(dir);
-            
+            generateFriends();
           }
-          generateFriends();
+          
         }
       }
       break;
@@ -109,9 +113,11 @@ class Player extends Dynamic {
             dynamicsPositionMap =  new PositionMap();
             dynamicsPositionMap.register(p, posX, posY);
             terrainMap = new Map(dir);
+            generateFriends();
           }
+          
         }
-        generateFriends();
+        
       }
       break;
     }
@@ -150,12 +156,15 @@ class Player extends Dynamic {
 
   public void attack(int dmg) {
     int trueDamage = dmg-armor;
-    if (trueDamage<=0) {
+    if (trueDamage<=0 && timer3==0) {
+      trueDamage = Math.round(dmg*0.3);
+    } else if (trueDamage<=0 && timer3!=0) {
       trueDamage = 0;
     }
     hp = hp - trueDamage;
     if (hp <0) {
       //p = null;
+      endGame = true;
     }
   }
 
@@ -191,6 +200,8 @@ class Player extends Dynamic {
     this.equip(new Item("Boots", -10, - 10, 301, Item.LEGS, 0, 0, 0));
     skills[0] = new WeaponSwing(451);
     skills[1] = new Charge(452);
+    skills[2] = new MultiStrike(462);
+    skills[3] = new Shield(464);
   }
 
   public void setOrc() {
@@ -198,14 +209,14 @@ class Player extends Dynamic {
   }
   public void giveXP(int i) {
     xp += i;
-    if (xp == requiredXP) {
+    if (xp >= requiredXP) {
       levelUP();
     }
   }
 
   private void levelUP() {
     atr+=4;
-    maxHP+=2;
+    maxHP = hp = 10+2+ Math.round(atr*0.4);
     level+=1;
     xp=0;
     requiredXP *= 2;

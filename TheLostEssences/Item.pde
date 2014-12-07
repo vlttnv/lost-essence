@@ -30,6 +30,9 @@ class Item extends Dynamic {
       drops.remove(this);
     } else {
       //WIN
+      foundIt = true;
+      endGame = true;
+      
     }
   }
 

@@ -58,6 +58,8 @@
 304	- simple shield
 305	- blessed blade
 306	- hat
+398	- buble
+399	- esecne
 400	- torch
 401	- chest
 402	- altar
@@ -77,3 +79,6 @@
 459	- armor
 460	- helm
 461	- shield
+462	- multistrike
+463	- cd
+464	- holy shield

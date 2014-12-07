@@ -4,7 +4,7 @@ abstract class NPC extends Dynamic {
   }
 
   void click() {
-    println("non");
+
   }
   
   abstract void attack(int dmg);

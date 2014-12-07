@@ -22,24 +22,22 @@ class Hostile extends NPC {
     } else if (type == UNIQUE) {
       makeUnique();
     }
+    hosts.add(this);
 
     dynamicsPositionMap.register(this, posX, posY);
-    hosts.add(this);
   }
 
 
   void click() {
-    println("I am hostile");
   }
 
   void attack(int dm) {
     int trueDamage = dm-armor;
     if (trueDamage<=0) {
-      trueDamage = 0;
+      trueDamage = Math.round(dm*0.8);
     }
     hp = hp - trueDamage;
 
-    println("hp: " + hp);
     if (hp <= 0) {
       kill();
     }
@@ -47,80 +45,89 @@ class Hostile extends NPC {
 
   private void kill() {
     //do stuff
-    dynamicsPositionMap.deregister(posX, posY);
     hosts.remove(this);
+    dynamicsPositionMap.deregister(posX, posY);
     p.giveXP(xpToGive);
     dropLoot();
   }
 
   private void dropLoot() {
     Item im = null;
-    if (type == UNIQUE) {
-    } else {
-      int roll = (int)Math.round(random(100));
+    int roll = (int)Math.round(random(100));
 
-      if (roll>=0) {
-        // head, left, right, chest
-        if (p.charClass == 0) {
-          int slot = (int)Math.round(random(100));
-          if (slot < 25) {
-            im = new Item("Sword", posX, posY, 305, Item.HAND_L, 4, 0, 0);
-          } else if (slot < 50 && slot >=25) {
-            im = new Item("Shield", posX, posY, 304, Item.HAND_R, 0, 4, 1);
-          } else if (slot < 75 && slot >=50) {
-            im = new Item("Armor", posX, posY, 300, Item.CHEST, 0, 3, 3);
-          } else if (slot < 100 && slot >=75) {
-            im = new Item("Helm", posX, posY, 306, Item.HEAD, 0, 1, 2);
-          }
-        } else {
+    if (roll>=50) {
+      // head, left, right, chest
+      if (p.charClass == 0) {
+        int slot = (int)Math.round(random(100));
+        if (slot < 25) {
+          int model = (int)Math.round(random(316, 318));
+          int dmg = (int)Math.round(random(4, 8));
+          im = new Item("Sword", posX, posY, model, Item.HAND_L, dmg*p.level, 0, 0);
+        } else if (slot < 50 && slot >=25) {
+          int model = (int)Math.round(random(319, 321));
+          int def = (int)Math.round(random(4, 10));
+          im = new Item("Shield", posX, posY, model, Item.HAND_R, 0, def*p.level, 1);
+        } else if (slot < 75 && slot >=50) {
+          int model = (int)Math.round(random(313, 315));
+          int def = (int)Math.round(random(4, 10));
+          int atr = (int)Math.round(random(4, 10));
+          im = new Item("Armor", posX, posY, model, Item.CHEST, 0, def*p.level, atr*p.level);
+        } else if (slot < 100 && slot >=75) {
+          int model = (int)Math.round(random(310, 312));
+          int def = (int)Math.round(random(1, 4));
+          int atr = (int)Math.round(random(1, 4));
+          im = new Item("Helm", posX, posY, model, Item.HEAD, 0, def*p.level, atr*p.level);
         }
+      } else {
       }
+
       if (im != null) {
         drops.add(im);
       }
-      println("dopped some lewt");
     }
   }
 
   private void makeUndead() {
     name = "Skeleton Bat";
-    xpToGive = lvl * 2;
+
     tile = 111;
     lvl = p.level;
     hp = maxHP = 10;
     dmg = 1;
-    armor = 1;
+    armor = 0;
+    xpToGive = lvl * 2;
 
     for (int i=lvl; i>=0; i--) {
-      hp = hp + i*10;
+      hp = hp + i*2;
     }
 
     hp *= lvl*0.5;
     maxHP = hp;
-    armor += armor*lvl;
-    dmg += p.hp/10;
+    armor += Math.round((armor*lvl)*0.2);
+    dmg += p.hp/7;
     for (int i=lvl; i>=0; i-=2) {
-      dmg = dmg + i;
+      dmg = dmg + i*2;
     }
   }
 
   private void makeDemon() {
     name = "Soul Eater";
-    xpToGive = lvl * 2;
+
     tile = 114;
     lvl = p.level;
     hp = maxHP = 15;
     dmg = 2;
-    armor = 1;
+    armor = 0;
+    xpToGive = lvl * 2;
 
     for (int i=lvl; i>=0; i--) {
-      hp = hp + i*10;
+      hp = hp + i*2;
     }
 
     hp *= lvl*0.5;
     maxHP = hp;
-    armor += armor*lvl;
-    dmg += p.hp/10;
+    armor += Math.round((armor*lvl)*0.2);
+    dmg += p.hp/7;
     for (int i=lvl; i>=0; i-=2) {
       dmg = dmg + i;
     }
@@ -128,12 +135,13 @@ class Hostile extends NPC {
 
   private void makeHumanoid() {
     name = "Gnoll";
-    xpToGive = lvl * 2;
+
     tile = 117;
     lvl = p.level;
     hp = maxHP = 20;
     dmg = 1;
-    armor = 2;
+    armor = 0;
+    xpToGive = lvl * 2;
 
     for (int i=lvl; i>=0; i--) {
       hp = hp + i*10;
@@ -141,8 +149,8 @@ class Hostile extends NPC {
 
     hp *= lvl*0.5;
     maxHP = hp;
-    armor += armor*lvl;
-    dmg += p.hp/10;
+    armor += Math.round((armor*lvl)*0.2);
+    dmg += p.hp/7;
     for (int i=lvl; i>=0; i-=2) {
       dmg = dmg + i;
     }
@@ -151,35 +159,37 @@ class Hostile extends NPC {
   private void makeUnique() {
     int which = (int)Math.round(random(120, 123));
     if (which == 120) {
-      xpToGive = lvl * 2;
+
       name = "Azmodeus";
       tile = 120;
 
       lvl = p.level+4;
       hp = maxHP = 35;
       dmg = 4;
-      armor = 4;
+      armor = 0;
+      xpToGive = lvl * 2;
 
       for (int i=lvl; i>=0; i--) {
-        hp = hp + i*10;
+        hp = hp + i*3;
       }
 
       hp *= lvl*0.5;
       maxHP = hp;
-      armor += armor*lvl;
-      dmg += p.hp/10;
+      armor += Math.round((armor*lvl)*0.2);
+      dmg += p.hp/7;
       for (int i=lvl; i>=0; i-=2) {
         dmg = dmg + i;
       }
     } else if (which == 121) {
       name = "Skeleton King";
-      xpToGive = lvl * 2;
+
       tile = 121;
 
       lvl = p.level;
       hp = maxHP = 35;
       dmg = 3;
-      armor = 3;
+      armor = 0;
+      xpToGive = lvl * 2;
 
       for (int i=lvl; i>=0; i--) {
         hp = hp + i*10;
@@ -187,50 +197,52 @@ class Hostile extends NPC {
 
       hp *= lvl*0.5;
       maxHP = hp;
-      armor += armor*lvl;
-      dmg += p.hp/10;
+      armor += Math.round((armor*lvl)*0.2);
+      dmg += p.hp/7;
       for (int i=lvl; i>=0; i-=2) {
         dmg = dmg + i;
       }
     } else if (which == 122) {
       name = "Hellios";
       tile = 122;
-      xpToGive = lvl * 2;
+
 
       lvl = p.level;
       hp = maxHP = 50;
-      dmg = 6;
+      dmg = 7;
       armor = 0;
+      xpToGive = lvl * 2;
 
       for (int i=lvl; i>=0; i--) {
-        hp = hp + i*10;
+        hp = hp + i*3;
       }
 
       hp *= lvl*0.5;
       maxHP = hp;
-      armor += armor*lvl;
-      dmg += p.hp/10;
+      armor += Math.round((armor*lvl)*0.2);
+      dmg += p.hp/7;
       for (int i=lvl; i>=0; i-=2) {
         dmg = dmg + i;
       }
     } else if (which == 123) {
       name = "The Lost Prince";
       tile = 123;
-      xpToGive = lvl * 2;
+
 
       lvl = p.level;
       hp = maxHP = 50;
       dmg = 22;
-      armor = 10;
+      armor = 0;
+      xpToGive = lvl * 2;
 
       for (int i=lvl; i>=0; i--) {
-        hp = hp + i*10;
+        hp = hp + i*3;
       }
 
       hp *= lvl*0.5;
       maxHP = hp;
-      armor += armor*lvl;
-      dmg += p.hp/10;
+      armor += Math.round((armor*lvl)*0.2);
+      dmg += p.hp/7;
       for (int i=lvl; i>=0; i-=2) {
         dmg = dmg + i;
       }
@@ -240,7 +252,7 @@ class Hostile extends NPC {
         ran_x = (int)random(0, cols-1);
         ran_y = (int)random(0, rows-1);
       }
-      new Chest(ran_x, ran_y, 401,true);
+      new Chest(ran_x, ran_y, 401, true);
     }
   }
 
@@ -273,7 +285,6 @@ class Hostile extends NPC {
         }
 
         if (moveToX != p.posX ||  moveToY != p.posY) {
-          println(terrainMap.isStepable(moveToX, moveToY));
           if (terrainMap.isStepable(moveToX, moveToY)) {
 
             dynamicsPositionMap.update(posX, posY, moveToX, moveToY);
@@ -285,28 +296,28 @@ class Hostile extends NPC {
       }
     } else {
 
-      int dir = (int)random(100);
-      if (dir <= 25) {
-        if (terrainMap.isStepable(posX, posY -1)) {
-          dynamicsPositionMap.update(posX, posY, posX, posY-1);
-          posY -= 1;
-        }
-      } else if (dir <= 50 && dir > 25) {
-        if (terrainMap.isStepable(posX, posY+1)) {
-          dynamicsPositionMap.update(posX, posY, posX, posY+1);
-          posY += 1;
-        }
-      } else if (dir <= 75 && dir > 50) {
-        if (terrainMap.isStepable(posX-1, posY)) {
-          dynamicsPositionMap.update(posX, posY, posX-1, posY);
-          posX -= 1;
-        }
-      } else if (dir <= 100 && dir >75) {
-        if (terrainMap.isStepable(posX+1, posY)) {
-          dynamicsPositionMap.update(posX, posY, posX+1, posY);
-          posX += 1;
-        }
-      }
+      //      int dir = (int)random(100);
+      //      if (dir <= 25) {
+      //        if (terrainMap.isStepable(posX, posY -1)) {
+      //          dynamicsPositionMap.update(posX, posY, posX, posY-1);
+      //          posY -= 1;
+      //        }
+      //      } else if (dir <= 50 && dir > 25) {
+      //        if (terrainMap.isStepable(posX, posY+1)) {
+      //          dynamicsPositionMap.update(posX, posY, posX, posY+1);
+      //          posY += 1;
+      //        }
+      //      } else if (dir <= 75 && dir > 50) {
+      //        if (terrainMap.isStepable(posX-1, posY)) {
+      //          dynamicsPositionMap.update(posX, posY, posX-1, posY);
+      //          posX -= 1;
+      //        }
+      //      } else if (dir <= 100 && dir >75) {
+      //        if (terrainMap.isStepable(posX+1, posY)) {
+      //          dynamicsPositionMap.update(posX, posY, posX+1, posY);
+      //          posX += 1;
+      //        }
+      //      }
     }
   }
 
