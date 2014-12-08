@@ -40,15 +40,15 @@ class Map {
   }
 
   public void drawMap() {
-    // Begin loop for columns
+
     for (int i = 0; i < cols; i++) {
       // Begin loop for rows
       for (int j = 0; j < rows; j++) {
-        // Scaling up to draw a rectangle at (x,y)
+
         int x = i*videoScale;
         int y = j*videoScale;
 
-        // For every column and row, a rectangle is drawn at an (x,y) location scaled and sized by videoScale.
+
         if (map[j][i] != -1) {
           image(tiles.get(map[j][i]), x, y);
         }
@@ -63,10 +63,10 @@ class Map {
   public void saveMap() {
 
     for (int i = 0; i < rows; i++) {
-      // Begin loop for rows
+
       String line = "";
       for (int j = 0; j < cols; j++) {
-        // Scaling up to draw a rectangle at (x,y)
+
         int x = i*videoScale;
         int y = j*videoScale;
 
@@ -81,16 +81,16 @@ class Map {
       }
       output.println(line);
     }
-    output.flush();  // Writes the remaining data to the file
-    output.close();  // Finishes the file
+    output.flush();  
+    output.close();  
     exit();
   }
 
   public void generateMap() {
     for (int i = 0; i < cols; i++) {
-      // Begin loop for rows
+
       for (int j = 0; j < rows; j++) {
-        // Scaling up to draw a rectangle at (x,y)
+
         int x = i*videoScale;
         int y = j*videoScale;
 
@@ -114,9 +114,7 @@ class Map {
 
     if (rnd < 1) {
       int border = (int)random(x_0, x_max);
-      //      while (map[y_0][border+1] == 141 || map[y_0][border-1] == 141) {
-      //        border = (int)random(x_0, x_max);
-      //      }
+
       int door = (int)random(y_0+1, y_max-1);
       for (int i=y_0; i<=y_max; i++) {
         if (i==door) {
@@ -128,12 +126,8 @@ class Map {
       }
       goDeeper(x_0, x_max/2, y_0, y_max, level+1);
       goDeeper((x_max-x_0)/2 + x_0, x_max, y_0, y_max, level+1);
-      //goDeeper(x_max/2, x_max, y_0, y_max, level+1);
     } else if (rnd >= 1) {
       int border = (int)random(y_0, y_max);
-      //      while (map[border+1][x_0] == 141 || map[border-1][x_0] == 141) {
-      //        border = (int)random(y_0, y_max);
-      //      }
       int door = (int)random(x_0+1, x_max-1);
       for (int i=x_0; i<=x_max; i++) {
         if (i==door) {

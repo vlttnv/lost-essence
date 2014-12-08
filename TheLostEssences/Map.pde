@@ -31,7 +31,7 @@ class Map {
 
   public Map(String mapName) {
     // Load the map into memory
-    BufferedReader reader = createReader("maps/" + mapName);
+    BufferedReader reader = createReader("data/maps/" + mapName);
     this.mapName = mapName;
     map = new int[rows][cols];
 
