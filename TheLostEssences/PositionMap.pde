@@ -1,3 +1,6 @@
+/**
+ A map containing all the dynamics.
+ */
 class PositionMap {
 
   Dynamic[][] map;
@@ -19,25 +22,22 @@ class PositionMap {
     map[y][x] = null;
   }
 
+  /**
+   No "fog of war". Used for debugging.
+   */
   public void drawOutdoors() {
-    // Begin loop for columns
     for (int i = 0; i < cols; i++) {
-      // Begin loop for rows
       for (int j = 0; j < rows; j++) {
-        // Scaling up to draw a rectangle at (x,y)
         int x = i*videoScale;
         int y = j*videoScale;
 
-        // For every column and row, a rectangle is drawn at an (x,y) location scaled and sized by videoScale.
         if (map[j][i] != null) {
           Dynamic d = map[j][i];
           if (d.type==100 && timer3 !=0) {
             image(loadedTiles.get(398), x, y);
           }
           image(loadedTiles.get(d.getTileNumber()), x, y);
-          //          textSize(12);
-          //          textAlign(CENTER);
-          //          text(d.getName(), d.getX()*videoScale + 16, d.getY()*videoScale);
+
           if (d.type==100) {
             fill(250, 33, 33);
             rect(d.getX()*videoScale, d.getY()*videoScale-2, 28, 2);
@@ -64,16 +64,16 @@ class PositionMap {
     }
   }
 
+  /**
+   Draw with "fog of war"
+   */
   public void drawMap() {
-    // Begin loop for columns
+
     for (int i = 0; i < cols; i++) {
-      // Begin loop for rows
       for (int j = 0; j < rows; j++) {
-        // Scaling up to draw a rectangle at (x,y)
         int x = i*videoScale;
         int y = j*videoScale;
 
-        // For every column and row, a rectangle is drawn at an (x,y) location scaled and sized by videoScale.
         if (map[j][i] != null) {
           if (abs(j - p.posY) < 4 && abs(i - p.posX) < 4) {
 
@@ -91,9 +91,6 @@ class PositionMap {
               }
             }
 
-
-
-
             Dynamic d = map[j][i];
 
 
@@ -105,7 +102,6 @@ class PositionMap {
               image(loadedTiles.get(d.getTileNumber()), x, y);
               textSize(12);
               textAlign(CENTER);
-              //text(d.getName(), d.getX()*videoScale + 16, d.getY()*videoScale);
               if (d.type==100) {
                 fill(250, 33, 33);
                 rect(d.getX()*videoScale, d.getY()*videoScale-2, 28, 2);

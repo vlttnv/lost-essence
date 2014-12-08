@@ -31,7 +31,11 @@ class Player extends Dynamic {
   }
 
 
-
+  /**
+   Moves the player to the location indicated by the direction.
+   Various checks are performed to ensure that it is a legal move.
+   Screen transition is also performed here.
+   */
   public void movePlayer(int direction) {
 
     switch (direction) {
@@ -107,6 +111,9 @@ class Player extends Dynamic {
     }
   }
 
+  /**
+   Populate the map with some friendly NPCs
+   */
   public void generateFriends() {
     int amount = (int)Math.round(random(5, 15));
     for (int i=0; i<amount; i++) {
@@ -131,10 +138,6 @@ class Player extends Dynamic {
     }
   }
 
-  public void shoot(int x, int y) {
-    line(posX*32, posY*32, x, y);
-  }
-
   public void click() {
   }
 
@@ -147,11 +150,13 @@ class Player extends Dynamic {
     }
     hp = hp - trueDamage;
     if (hp <0) {
-      //p = null;
       endGame = true;
     }
   }
 
+  /**
+   Draws the currently equiped items.
+   */
   public void drawItems() {
     for (int i=0; i<inventory.length; i++) {
       if (inventory[i] != null) {
@@ -170,6 +175,9 @@ class Player extends Dynamic {
     }
   }
 
+  /**
+   Creates a warrior on game start.
+   */
   public void setUpWarrior() {
     // starting base 10 hp, 4str, 4armor
     charClass = 0;
@@ -188,9 +196,6 @@ class Player extends Dynamic {
     skills[3] = new Shield(464);
   }
 
-  public void setOrc() {
-    tile = 101;
-  }
   public void giveXP(int i) {
     xp += i;
     if (xp >= requiredXP) {
@@ -206,6 +211,9 @@ class Player extends Dynamic {
     requiredXP *= 2;
   }
 
+  /**
+   Take care of equiping an item
+   */
   public void equip(Item item) {
     if (inventory[item.slot] != null) {
       atr -= inventory[item.slot].atr;
@@ -216,14 +224,11 @@ class Player extends Dynamic {
       atr += item.atr;
       armor += item.def;
       dmg += item.dmg;
-
-      //TODO update stats
     } else {
       inventory[item.slot] = item;
       atr += item.atr;
       armor += item.def;
       dmg += item.dmg;
-      //TODO update stats
     }
   }
 }

@@ -229,9 +229,6 @@ void mouseClicked() {
       p.setUpWarrior();
       mainMenu = false;
     }
-    if ((mouseX>28 && mouseX<123) && (mouseY>220 && mouseY<272)) {
-      p.setOrc();
-    }
   } else if (endGame) {
     if (foundIt) {
       if ((mouseX>540 && mouseX<734) && (mouseY>513 && mouseY<570)) {
