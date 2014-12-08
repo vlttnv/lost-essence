@@ -159,18 +159,21 @@ class Entrance extends Dynamic {
    Generate Friendly NPCs
    */
   public void generateFriends() {
-    int amount = (int)Math.round(random(5, 15));
-    for (int i=0; i<amount; i++) {
-      // Generate a bunch or normal monsters
-      // generate 1-2 bosses
-      int t = (int)Math.round(random(2));
-      int ran_x = (int)random(0, cols-1);
-      int ran_y = (int)random(0, rows-1);
-      while (!terrainMap.isStepable (ran_x, ran_y)) {
-        ran_x = (int)random(0, cols-1);
-        ran_y = (int)random(0, rows-1);
+    if (!map.contains("small_house")) {
+
+      int amount = (int)Math.round(random(5, 15));
+      for (int i=0; i<amount; i++) {
+        // Generate a bunch or normal monsters
+        // generate 1-2 bosses
+        int t = (int)Math.round(random(2));
+        int ran_x = (int)random(0, cols-1);
+        int ran_y = (int)random(0, rows-1);
+        while (!terrainMap.isStepable (ran_x, ran_y)) {
+          ran_x = (int)random(0, cols-1);
+          ran_y = (int)random(0, rows-1);
+        }
+        new Friendly("", ran_x, ran_y, 0);
       }
-      new Friendly("", ran_x, ran_y, 0);
     }
   }
 
@@ -196,7 +199,7 @@ class Entrance extends Dynamic {
         new Hostile("", ran_x, ran_y, Hostile.HUMANOID);
       }
     }
-    
+
     // Generate uniques
     int spawnUnique = (int)Math.round(random(100));
     int ran_x = (int)random(0, cols-1);

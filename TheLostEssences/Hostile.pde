@@ -74,7 +74,8 @@ class Hostile extends NPC {
         } else if (slot < 50 && slot >=25) {
           int model = (int)Math.round(random(319, 321));
           int def = (int)Math.round(random(4, 10));
-          im = new Item("Shield", posX, posY, model, Item.HAND_R, 0, def*p.level, 1);
+          int atr = (int)Math.round(random(4, 10));
+          im = new Item("Shield", posX, posY, model, Item.HAND_R, 0, def*p.level, atr*p.level);
         } else if (slot < 75 && slot >=50) {
           int model = (int)Math.round(random(313, 315));
           int def = (int)Math.round(random(4, 10));

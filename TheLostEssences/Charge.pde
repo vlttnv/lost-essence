@@ -20,7 +20,7 @@ class Charge extends Skill {
       int newx = mouseX/videoScale;
       int newy = mouseY/videoScale;
       if (d != null) {
-        if ((abs(mouseX/videoScale-p.posX) <= range && abs(mouseX/videoScale-p.posX)>0) && (abs(mouseY/videoScale-p.posY) <= range && abs(mouseY/videoScale-p.posY)>0 )) {
+        if ((abs(mouseX/videoScale-p.posX) <= range) && (abs(mouseY/videoScale-p.posY) <= range )) {
           // Move player to a legal place
           if (terrainMap.isStepable(mouseX/videoScale+1, mouseY/videoScale)) {
             newx += 1;
