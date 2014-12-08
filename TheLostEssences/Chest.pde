@@ -1,3 +1,9 @@
+/**
+ A chest contain garanteed loot. It spawns at the end of a dungeon
+ or in the presence of a unique creature. A special chest contains
+ the iteam which is required to win the game, The Last Essence.
+ It spawns only if The Lost Prince spawns.
+ */
 class Chest extends Dynamic {
   int newX;
   int newY;
@@ -15,9 +21,8 @@ class Chest extends Dynamic {
   }
 
   public void click() {
+    // Regular chest
     if (!special) {
-
-
       dynamicsPositionMap.deregister(posX, posY);
       Item im = null;
       if (p.charClass == 0) {
@@ -43,10 +48,10 @@ class Chest extends Dynamic {
           im = new Item("Helm", posX, posY, model, Item.HEAD, 0, def*p.level, atr*p.level);
         }
       }
+    // Last Essence Chest
     } else {
       dynamicsPositionMap.deregister(posX, posY);
       Item im = new Item("Last Essence", posX, posY, 399, Item.ES, 9000, 9000, 9000);
-      ;
     }
   }
 

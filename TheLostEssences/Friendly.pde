@@ -1,3 +1,9 @@
+/**
+ Friendly NPC. Currently not doing anything specific.
+ The plans is that friendly NPCs can talk to the player,
+ sell/buy items, give quests.
+ */
+
 class Friendly extends NPC {
 
 

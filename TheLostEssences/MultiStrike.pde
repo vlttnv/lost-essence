@@ -1,8 +1,11 @@
+/**
+A strong attack, damaging the Hostiles in the 4 directions
+around the player (east, west, north, south). Has a cooldown of 5 seconds
+*/
 class MultiStrike extends Skill {
 
   public MultiStrike(int tile) {
     super(0, 1, tile);
-    //TODO FIX DMG
     dmg = p.inventory[Item.HAND_L].dmg * 4;
   }
 

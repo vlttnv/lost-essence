@@ -1,3 +1,7 @@
+/**
+ Used to represent the word and be used as a position map.
+ Static maps are loaded from a file, dynamic dungeons are generated.
+ */
 class Map {
   public static final int NON_DUNGEON = 0;
   public static final int DUNGEON = 1;
@@ -26,6 +30,7 @@ class Map {
   }
 
   public Map(String mapName) {
+    // Load the map into memory
     BufferedReader reader = createReader("maps/" + mapName);
     this.mapName = mapName;
     map = new int[rows][cols];
@@ -39,6 +44,7 @@ class Map {
 
 
     try {
+      // Read the parameters
       mapType = Integer.parseInt(reader.readLine());
       eastMap = reader.readLine();
       westMap = reader.readLine();
@@ -46,6 +52,7 @@ class Map {
       southMap = reader.readLine();
       line = reader.readLine();
 
+      // Insert props
       if (line.length() != 0) {
         props = split(line, ',');
         for (int i=0; i<props.length; i++) {
@@ -55,6 +62,7 @@ class Map {
         }
       }
 
+      // Insert entrances
       line = reader.readLine();
       if (line.length() != 0) {
         entrances = split(line, ',');
@@ -66,7 +74,7 @@ class Map {
       }
 
 
-
+      // Populate map
       while ( (line = reader.readLine ()) != null) {
         split = split(line, ',');
         for (int i=0; i<split.length; i++) {
@@ -90,21 +98,28 @@ class Map {
     return map[y][x];
   }
 
+  /**
+   Draw every single tile
+   */
   public void drawOutdoors() {
     for (int i = 0; i < cols; i++) {
-      // Begin loop for rows
       for (int j = 0; j < rows; j++) {
-        // Scaling up to draw a rectangle at (x,y)
         int x = i*videoScale;
         int y = j*videoScale;
 
-        // For every column and row, a tiles is drawn at an (x,y) location scaled and sized by videoScale.
         image(loadedTiles.get(map[j][i]), x, y);
       }
     }
   }
 
 
+  /**
+   Draw with fog of war.
+   This is done by checking if there are obstructions from the
+   farthest tile that the player can see to the player. If so
+   the tiles before the obstruction are not draw, but after it are(towards the player).
+   This is done in all directions (the 4 for-loops).
+   */
   public void drawMap() {
 
     for (int i=0; i<=7; i++) {
@@ -201,9 +216,15 @@ class Map {
     }
   }
 
+  /**
+   Random dungeon generation. Done recursively, dividing the dungeon in 2 pieces
+   per call and calling the recursive methond on those 2 pieces up to a depth of 3.
+   Doorways are inserted along the way.
+   */
   public void generateMap() {
     int dunType = (int)Math.round(random(3));
 
+    // Choose dungeon theme
     if (dunType == 3) {
       randWall = 141;
       randFloor = 41;
@@ -218,6 +239,7 @@ class Map {
       randFloor = 10;
     }
 
+    // First split
     for (int i = 0; i < cols; i++) {
       // Begin loop for rows
       for (int j = 0; j < rows; j++) {
@@ -237,6 +259,9 @@ class Map {
     goDeeper(0, cols-1, 0, rows-1, 0);
   }
 
+  /**
+   Recursively split the dungeon
+   */
   private void goDeeper(int x_0, int x_max, int y_0, int y_max, int level) {
     if (level == 3) return;
 
@@ -245,9 +270,7 @@ class Map {
 
     if (rnd < 1) {
       int border = (int)random(x_0, x_max);
-      //      while (map[y_0][border+1] == 141 || map[y_0][border-1] == 141) {
-      //        border = (int)random(x_0, x_max);
-      //      }
+
       int door1 = (int)random(y_0+1, y_max-1);
       int door2 = (int)random(y_0+1, y_max-1);
       for (int i=y_0; i<=y_max; i++) {
@@ -259,12 +282,8 @@ class Map {
       }
       goDeeper(x_0, x_max/2, y_0, y_max, level+1);
       goDeeper((x_max-x_0)/2 + x_0, x_max, y_0, y_max, level+1);
-      //goDeeper(x_max/2, x_max, y_0, y_max, level+1);
     } else if (rnd >= 1) {
       int border = (int)random(y_0, y_max);
-      //      while (map[border+1][x_0] == 141 || map[border-1][x_0] == 141) {
-      //        border = (int)random(y_0, y_max);
-      //      }
       int door = (int)random(x_0+1, x_max-1);
       for (int i=x_0; i<=x_max; i++) {
         if (i==door) {
@@ -285,6 +304,10 @@ class Map {
       return false;
     }
   }
+
+  /**
+   Used for transitioning between overground screens
+   */
   public String getMapDirection(int direction) {
     if (direction == EAST) {
       return eastMap;

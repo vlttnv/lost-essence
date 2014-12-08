@@ -27,16 +27,7 @@ class Player extends Dynamic {
     skills = new Skill[4];
     inventory = new Item[10];
     requiredXP = 10;
-    //inventory[0] = 302; //LEFT
-    //inventory[1] = 304; //RIGHT
-    //inventory[2] = 300; //CHEST 
-    //inventory[3] = 300; //HEAD
-    //inventory[4] = 301; //LEGS
-    //inventory[5] = 303; //FEET
-    if (charClass == 0) {
-    }
     dynamicsPositionMap.register(this, posX, posY);
-    //dynamicsRenderMap.set(posX, posY, 100);
   }
 
 
@@ -58,9 +49,7 @@ class Player extends Dynamic {
             terrainMap = new Map(dir);
             generateFriends();
           }
-          
         }
-        
       }
       break;
     case D_DOWN: 
@@ -77,9 +66,7 @@ class Player extends Dynamic {
             terrainMap = new Map(dir);
             generateFriends();
           }
-          
         }
-        
       }
 
       break;
@@ -97,7 +84,6 @@ class Player extends Dynamic {
             terrainMap = new Map(dir);
             generateFriends();
           }
-          
         }
       }
       break;
@@ -115,14 +101,12 @@ class Player extends Dynamic {
             terrainMap = new Map(dir);
             generateFriends();
           }
-          
         }
-        
       }
       break;
     }
   }
-  
+
   public void generateFriends() {
     int amount = (int)Math.round(random(5, 15));
     for (int i=0; i<amount; i++) {

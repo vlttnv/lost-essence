@@ -1,3 +1,8 @@
+/**
+ Hostile NPC can be of several types. Normal and Unique,
+ where normal hostiles can be undead, deomn and humanoid.
+ There are several unique hostiles.
+ */
 class Hostile extends NPC {
   int hp, dmg, armor, lvl, type, maxHP;
   int xpToGive;
@@ -51,6 +56,9 @@ class Hostile extends NPC {
     dropLoot();
   }
 
+  /**
+   Roll for a random slot item to be dropped upon death.
+   */
   private void dropLoot() {
     Item im = null;
     int roll = (int)Math.round(random(100));
@@ -156,6 +164,11 @@ class Hostile extends NPC {
     }
   }
 
+  /**
+   Chooce between several uniques, one of which is
+   the Lost Prince. Spawn the special chest if you
+   spawn the Lost Prince.
+   */
   private void makeUnique() {
     int which = (int)Math.round(random(120, 123));
     if (which == 120) {
@@ -256,7 +269,12 @@ class Hostile extends NPC {
     }
   }
 
-  public void moveRandom() {
+  /**
+  Move the hostile if it sees the player and try to follow him.
+  Try to attack if in range and nothing is obstructing the path.
+  Path detection is done using vector interpolation.
+  */
+  public void move() {
     if (abs(posY - p.posY) < 6 && abs(posX - p.posX) < 6) {
 
 
@@ -294,35 +312,7 @@ class Hostile extends NPC {
           }
         }
       }
-    } else {
-
-      //      int dir = (int)random(100);
-      //      if (dir <= 25) {
-      //        if (terrainMap.isStepable(posX, posY -1)) {
-      //          dynamicsPositionMap.update(posX, posY, posX, posY-1);
-      //          posY -= 1;
-      //        }
-      //      } else if (dir <= 50 && dir > 25) {
-      //        if (terrainMap.isStepable(posX, posY+1)) {
-      //          dynamicsPositionMap.update(posX, posY, posX, posY+1);
-      //          posY += 1;
-      //        }
-      //      } else if (dir <= 75 && dir > 50) {
-      //        if (terrainMap.isStepable(posX-1, posY)) {
-      //          dynamicsPositionMap.update(posX, posY, posX-1, posY);
-      //          posX -= 1;
-      //        }
-      //      } else if (dir <= 100 && dir >75) {
-      //        if (terrainMap.isStepable(posX+1, posY)) {
-      //          dynamicsPositionMap.update(posX, posY, posX+1, posY);
-      //          posX += 1;
-      //        }
-      //      }
     }
-  }
-
-
-  private void makeBoss() {
   }
 }
 

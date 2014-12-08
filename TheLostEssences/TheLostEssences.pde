@@ -39,7 +39,6 @@ String playerName = "";
 /*-----------------
  Skills
  -------------------*/
-Particle particle;
 int coolDown0 = 0;
 int coolDown1 = 0;
 int coolDown2 = 0;
@@ -75,6 +74,7 @@ void setup() {
 
 // Draw loop
 void draw() {
+  // Switch between the states
   if (mainMenu) {
     ui.drawMainMenu();
   } else if (endGame) { 
@@ -92,7 +92,7 @@ void draw() {
     } else {
       for (int i=0; i<hosts.size (); i++) {
         if (hosts.size() != 0) {
-          hosts.get(i).moveRandom();
+          hosts.get(i).move();
         }
       }
       for (int i=0; i<friends.size (); i++) {
@@ -116,15 +116,6 @@ void draw() {
 
     // Dynamic player appearance
     p.drawItems();
-
-    //    if (drawCharStats) {
-    //      ui.drawCharStats(p);
-    //    }
-    if (particle != null) {
-      particle.integrate();
-      PVector position = particle.position;
-      image(loadedTiles.get(151), position.x, position.y);
-    }
 
     // Bottom bar
     ui.drawMainUI();
@@ -212,18 +203,14 @@ void keyPressed() {
     }
     if (key == '3') {
       Skill s = p.skills[2];
-      //Dynamic d = dynamicsPositionMap.get(mouseX/videoScale, mouseY/videoScale);
       s.use(null);
     }
     if (key == '4') {
       Skill s = p.skills[3];
-      //Dynamic d = dynamicsPositionMap.get(mouseX/videoScale, mouseY/videoScale);
       s.use(null);
     }
     if (key == 't') {
-      //Skill s = p.skills[1];
-      //Dynamic d = dynamicsPositionMap.get(mouseX/videoScale, mouseY/videoScale);
-      //s.use(d);
+      // Teleport
       mapStack = new ArrayList<Map>();
       dynamicsPositionMap =  new PositionMap();
       terrainMap = new Map("starting.map");
@@ -251,13 +238,10 @@ void mouseClicked() {
         endGame = false;
         foundIt = false;
         mainMenu = true;
-        // Maps
         mapStack = new ArrayList<Map>();
         dynamicsPositionMap =  new PositionMap();
         terrainMap = new Map("starting.map");
         hosts = new ArrayList<Hostile>();
-
-        // PLAYER
         p = new Player("Bob", 5, 5, 100, 0);
       }
     } else {
@@ -265,20 +249,17 @@ void mouseClicked() {
         endGame = false;
         foundIt = false;
         mainMenu = true;
-        // Maps
+
         mapStack = new ArrayList<Map>();
         dynamicsPositionMap =  new PositionMap();
         terrainMap = new Map("starting.map");
         hosts = new ArrayList<Hostile>();
 
-        // PLAYER
         p = new Player("Bob", 5, 5, 100, 0);
       }
     }
   } else {
     if (mouseY<=rows*videoScale) {
-
-
       Dynamic temp = dynamicsPositionMap.get(mouseX / videoScale, mouseY / videoScale);
 
       if (temp != null) {
@@ -289,8 +270,6 @@ void mouseClicked() {
             Skill s = p.skills[0];
             Dynamic d = dynamicsPositionMap.get(mouseX/videoScale, mouseY/videoScale);
             s.use(d);
-            //temp.attack(5);
-            //particle = new Particle(p.posX * videoScale, p.posY  * videoScale, (mouseX-p.posX* videoScale), (mouseY - p.posY* videoScale), 0f, 0f) ;
           }
         }
       }

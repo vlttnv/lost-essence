@@ -1,3 +1,7 @@
+/**
+ Items are equipped by the player and can occupy different slots.
+ Items give different attributes depending on the slot.
+ */
 class Item extends Dynamic {
   static public final int HAND_L = 0;
   static public final int HAND_R = 1;
@@ -23,6 +27,10 @@ class Item extends Dynamic {
     }
   }
 
+  /**
+   Pick up the item and equip it.
+   Win the game if the item is the Last Essence
+   */
   public void click() {
     if (slot != ES) {
       dynamicsPositionMap.deregister(posX, posY);
@@ -32,7 +40,6 @@ class Item extends Dynamic {
       //WIN
       foundIt = true;
       endGame = true;
-      
     }
   }
 

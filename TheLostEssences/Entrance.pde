@@ -1,3 +1,7 @@
+/**
+ Portals, gateways, doors.
+ Entering a dungeon will generate Hostiles. 
+ */
 class Entrance extends Dynamic {
   int newX;
   int newY;
@@ -24,8 +28,10 @@ class Entrance extends Dynamic {
 
   public void click() {
     hosts.clear();
+    // Goin in a dungeon
     if (map.equals("random_dungeon")) {
 
+      // Are you going up a level?
       if (direction == D_UP) {
         p.dunLevel -= 1;
         // Pop the map
@@ -47,6 +53,7 @@ class Entrance extends Dynamic {
         p.posX = newX;
         p.posY = newY;
 
+        // Put the exit somehwere hard to find
         int ran_x = (int)random(0, cols-1);
         int ran_y = (int)random(0, rows-1);
         while (!terrainMap.isStepable (ran_x, ran_y)) {
@@ -54,11 +61,12 @@ class Entrance extends Dynamic {
           ran_y = (int)random(0, rows-1);
         }
         new Entrance("Exit to " + (p.dunLevel-1), ran_x, ran_y, 152, 11, 12, terMapName, D_UP);
-        //new Entrance("Entrance", p.posX,p.posY+2, 150, 11, 12, "random_dungeon", D_DOWN);
 
         // Teleport player
         dynamicsPositionMap.register(p, newX, newY);
         p.teleportPlayer(newX, newY);
+
+        // Or going down a level
       } else if (direction == D_DOWN) {
         p.dunLevel += 1;
         boolean finalLevel = false;
@@ -103,7 +111,7 @@ class Entrance extends Dynamic {
         p.posY = newY;
 
 
-
+        // Make sure to spawn another entrance if not the final level
         if (!finalLevel) {
           ran_x = (int)random(0, cols-1);
           ran_y = (int)random(0, rows-1);
@@ -116,13 +124,14 @@ class Entrance extends Dynamic {
 
 
         dynamicsPositionMap.register(p, newX, newY);
+        p.teleportPlayer(newX, newY);
 
         /*
         GENERATE NPCs
          */
         generateNPC(finalLevel);
-        p.teleportPlayer(newX, newY);
       }
+      // If entering an overground level
     } else {
       p.dunLevel = 0;
       dynamicsPositionMap =  new PositionMap();
@@ -139,18 +148,16 @@ class Entrance extends Dynamic {
 
       p.posX = newX;
       p.posY = newY;
-      //new Entrance("Portal", p.posX,p.posY+1, 150, 11, 12, "starting.map");
-      //new Entrance("Portal", (int)random(0, cols-1), (int)random(0, rows-1), 150, 11, 12, "dungeon.map");
 
       dynamicsPositionMap.register(p, newX, newY);
-      //    for (int i=0; i<15; i++) {
-      //      new Hostile("Z" +i, (int)random(0, cols-1), (int)random(0, rows-1), 10, 5, 10, 1, 1, 110);
-      //    }
       p.teleportPlayer(newX, newY);
       generateFriends();
     }
   }
 
+  /**
+   Generate Friendly NPCs
+   */
   public void generateFriends() {
     int amount = (int)Math.round(random(5, 15));
     for (int i=0; i<amount; i++) {
@@ -167,11 +174,13 @@ class Entrance extends Dynamic {
     }
   }
 
+  /**
+   Generate Hostile NPCs
+   */
   public void generateNPC(boolean finalLevel) {
     int amount = (int)Math.round(random(5, 35));
     for (int i=0; i<amount; i++) {
       // Generate a bunch or normal monsters
-      // generate 1-2 bosses
       int t = (int)Math.round(random(2));
       int ran_x = (int)random(0, cols-1);
       int ran_y = (int)random(0, rows-1);
@@ -187,6 +196,8 @@ class Entrance extends Dynamic {
         new Hostile("", ran_x, ran_y, Hostile.HUMANOID);
       }
     }
+    
+    // Generate uniques
     int spawnUnique = (int)Math.round(random(100));
     int ran_x = (int)random(0, cols-1);
     int ran_y = (int)random(0, rows-1);
@@ -210,7 +221,6 @@ class Entrance extends Dynamic {
   }
 
   public void attack(int dmg) {
-
   }
 }
 

@@ -1,6 +1,8 @@
 /**
  Represents all "dynamic" entities in the game. Those include
  all the objects and NPC that the player can interact with and the player himeslf.
+ Polymorphism is used to access certain dynamics, like Hostile and Item in the
+ Dynamics Position Map
  */
 abstract class Dynamic {
   String name;
@@ -16,20 +18,14 @@ abstract class Dynamic {
     this.type = type;
   }
 
+  // Every Dynamic should have those
   abstract void click();
   abstract void attack(int dmg);
-
-//  String getName() {
-//    return name;
-//  }
 
   int getTileNumber() {
     return tile;
   }
 
-//  public String getDName() { 
-//    return name;
-//  }
   public int getX() {
     return posX;
   }

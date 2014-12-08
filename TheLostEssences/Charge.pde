@@ -1,3 +1,9 @@
+/**
+ Charge to the target Dynamic with a 
+ chance to heal the player for a small amount.
+ A charge can be made from a certain rane and not
+ when close to the target. The cooldown is 3 seconds.
+ */
 class Charge extends Skill {
 
   public Charge(int tile) {
@@ -5,12 +11,17 @@ class Charge extends Skill {
     dmg = p.inventory[Item.HAND_L].dmg;
   }
 
+  /*
+  Checks if the target is in ragne or not too close.
+  Chargin through walls is intended!
+   */
   public void use(Dynamic d) {
     if (coolDown1 == 0) {
       int newx = mouseX/videoScale;
       int newy = mouseY/videoScale;
       if (d != null) {
         if ((abs(mouseX/videoScale-p.posX) <= range && abs(mouseX/videoScale-p.posX)>0) && (abs(mouseY/videoScale-p.posY) <= range && abs(mouseY/videoScale-p.posY)>0 )) {
+          // Move player to a legal place
           if (terrainMap.isStepable(mouseX/videoScale+1, mouseY/videoScale)) {
             newx += 1;
           } else if (terrainMap.isStepable(mouseX/videoScale-1, mouseY/videoScale)) {
@@ -22,6 +33,8 @@ class Charge extends Skill {
           }
           p.teleportPlayer(newx, newy);
           d.attack(dmg);
+          
+          // Roll for heal
           int gain = (int)Math.round(p.hp*0.2);
           if (p.hp+gain <=p.maxHP) {
             p.hp += gain;
@@ -30,6 +43,8 @@ class Charge extends Skill {
           }
         }
       }
+      
+      // Start timer and change skill tile to indicate cooldown
       coolDown1 += 1;
       this.tile = 463;
     }
